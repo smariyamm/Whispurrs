@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="Theme.Whispurrs" parent="android:Theme.Material.Light.NoActionBar" />
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Whispurrs" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- You can add your custom colors or styles here -->
+        <!-- Example:
+        <item name="colorPrimary">@color/purple_500</item>
+        -->
+    </style>
 </resources>

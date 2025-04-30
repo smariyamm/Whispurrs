@@ -1,14 +1,14 @@
 package com.example.whispurrs;
 //package com.example.whispurrs.ui.activities; // Change to match your manifest
 
-
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.ComponentActivity;
-public class MainActivity extends ComponentActivity {
+public class MainActivity extends AppCompatActivity {
 
     private Button button;
     private TextView textView;

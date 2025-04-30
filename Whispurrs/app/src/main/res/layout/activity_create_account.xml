@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateAccountActivity">
+
+    <!-- Fullscreen grey rectangle -->
+
+    <!-- Smaller green rectangle centered -->
+
+    <View
+        android:id="@+id/rose"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="#DD5588"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/coral"
+        android:layout_width="wrap_content"
+        android:layout_height="735dp"
+        android:background="#FF7687"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.502" />
+
+    <View
+        android:id="@+id/peach"
+        android:layout_width="wrap_content"
+        android:layout_height="563dp"
+        android:background="#FFAF80"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rose"
+        app:layout_constraintVertical_bias="0.501" />
+
+    <View
+        android:id="@+id/yellow"
+        android:layout_width="wrap_content"
+        android:layout_height="371dp"
+        android:background="#FFDF7B"
+        app:layout_constraintBottom_toBottomOf="@+id/rose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rose" />
+
+    <View
+        android:id="@+id/cream"
+        android:layout_width="383dp"
+        android:layout_height="434dp"
+        android:background="@drawable/creamroundedrectangle"
+        app:layout_constraintBottom_toBottomOf="@+id/rose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rose" />
+
+    <!-- ImageView for the GIF -->
+
+
+    <ImageView
+        android:id="@+id/imageViewGif"
+        android:layout_width="290dp"
+        android:layout_height="290dp"
+        android:rotationY="180"
+        android:scaleType="fitXY"
+        android:src="@drawable/resizedsleepycat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/coral" />
+
+    <TextView
+        android:id="@+id/createaccount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:gravity="center"
+        android:text="create\naccount"
+        android:textColor="#77B5BD"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="@+id/yellow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rose"
+        app:layout_constraintVertical_bias="0.533" />
+
+    <Button
+        android:id="@+id/enter"
+        android:layout_width="138dp"
+        android:layout_height="38dp"
+        android:background="@drawable/roundedbutton"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text="enter"
+        android:textAllCaps="false"
+        android:textColor="#FFDF7B"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cream"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="302dp"
+        android:layout_height="42dp"
+        android:background="@drawable/inputfield"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:hint="new username"
+        android:textColorHint="#DD5588"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:textColor="#DD5588"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/cream"
+        app:layout_constraintStart_toStartOf="@+id/cream"
+        app:layout_constraintTop_toBottomOf="@+id/createaccount" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="302dp"
+        android:layout_height="42dp"
+        android:background="@drawable/inputfield"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:hint="new password"
+        android:textColorHint="#DD5588"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColor="#DD5588"
+        app:layout_constraintBottom_toBottomOf="@+id/yellow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createaccount" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
