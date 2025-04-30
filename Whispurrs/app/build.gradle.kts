@@ -41,6 +41,13 @@ android {
 
 dependencies {
 
+
+    // Glide dependency for image loading
+    implementation("com.github.bumptech.glide:glide:4.15.0")
+
+    // Glide compiler for annotation processing
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -52,7 +59,9 @@ dependencies {
 
     // Add this line for ConstraintLayout
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")  // Or the latest version
-    implementation("androidx.appcompat:appcompat:1.4.1")  // Or the latest version
+    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("com.google.android.material:material:1.10.0")
+    implementation("androidx.activity:activity:1.10.1")  // Or the latest version
 
 
     testImplementation(libs.junit)
