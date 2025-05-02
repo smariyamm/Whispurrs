@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1035072650022",
+    "project_id": "whispurrs-4b595",
+    "storage_bucket": "whispurrs-4b595.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035072650022:android:7f0f33730674ef04985fe7",
+        "android_client_info": {
+          "package_name": "com.example.whispurrs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNTMChA0hLgUNWSC3bCf_8NIRVMn5EykE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

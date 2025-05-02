@@ -110,8 +110,11 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/cream"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintVertical_bias="0.234" />
+
 
     <EditText
         android:id="@+id/username"
@@ -136,14 +139,31 @@
         android:background="@drawable/inputfield"
         android:fontFamily="@font/pixelify_sans_medium"
         android:hint="new password"
-        android:textColorHint="#DD5588"
         android:inputType="textPassword"
         android:padding="10dp"
         android:textColor="#DD5588"
+        android:textColorHint="#DD5588"
         app:layout_constraintBottom_toBottomOf="@+id/yellow"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createaccount" />
+        app:layout_constraintTop_toBottomOf="@+id/createaccount"
+        app:layout_constraintVertical_bias="0.467" />
+
+    <Button
+        android:id="@+id/backbutton"
+        android:layout_width="95dp"
+        android:layout_height="25dp"
+        android:background="@drawable/roundedbutton"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text=" ⬅  back"
+        android:textAllCaps="false"
+        android:textColor="#FFDF7B"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cream"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enter" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

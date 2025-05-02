@@ -5,6 +5,126 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#77B5BD"
     tools:context=".LoginActivity">
 
+    <FrameLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#77B5BD" />
+
+    <View
+        android:id="@+id/cream"
+        android:layout_width="383dp"
+        android:layout_height="434dp"
+        android:background="@drawable/creamroundedrectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- ImageView for the GIF -->
+    <ImageView
+        android:id="@+id/imageViewGif"
+        android:layout_width="290dp"
+        android:layout_height="290dp"
+        android:rotationY="180"
+        android:scaleType="fitXY"
+        android:src="@drawable/resizedsleepycat"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.538" />
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:gravity="center"
+        android:lineSpacingExtra="14sp"
+        android:letterSpacing="0.09"
+        android:text="login"
+        android:textColor="#77B5BD"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cream"
+        app:layout_constraintVertical_bias="0.521" />
+
+    <Button
+        android:id="@+id/enter"
+        android:layout_width="138dp"
+        android:layout_height="38dp"
+        android:background="@drawable/roundedbutton"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text="enter"
+        android:textAllCaps="false"
+        android:textColor="#FFDF7B"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cream"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintVertical_bias="0.23" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="302dp"
+        android:layout_height="42dp"
+        android:background="@drawable/inputfield"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:hint="username"
+        android:inputType="textPersonName"
+        android:lineSpacingExtra="8sp"
+        android:padding="10dp"
+        android:textColor="#DD5588"
+        android:textColorHint="#DD5588"
+        app:layout_constraintBottom_toBottomOf="@+id/cream"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cream"
+        app:layout_constraintVertical_bias="0.362" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="302dp"
+        android:layout_height="42dp"
+        android:background="@drawable/inputfield"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:hint="password"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColor="#DD5588"
+        android:textColorHint="#DD5588"
+        app:layout_constraintBottom_toBottomOf="@+id/cream"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintVertical_bias="0.129" />
+
+    <Button
+        android:id="@+id/createaccount"
+        android:layout_width="174dp"
+        android:layout_height="24dp"
+        android:background="@drawable/roundedbutton"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text="create account"
+        android:textAllCaps="false"
+        android:textColor="#FFDF7B"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cream"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enter"
+        app:layout_constraintVertical_bias="0.523" />
 </androidx.constraintlayout.widget.ConstraintLayout>
