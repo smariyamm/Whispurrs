@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Whispurrs"
         tools:targetApi="31">
         <activity
+            android:name=".BeatsLibrary"
+            android:exported="true" />
+        <activity
             android:name=".CreateAccountActivity"
             android:exported="true" />
         <activity
