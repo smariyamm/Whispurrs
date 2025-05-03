@@ -52,6 +52,25 @@ public class CreateAccountActivity extends AppCompatActivity {
         enter.setOnClickListener(v -> {
             String username = user.getText().toString();
             String password = pass.getText().toString();
+            if (password.isEmpty() && username.isEmpty()) {
+                Toast.makeText(CreateAccountActivity.this,
+                        "please enter account information",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (username.isEmpty()) {
+                Toast.makeText(CreateAccountActivity.this,
+                        "please enter a username",
+                        Toast.LENGTH_LONG).show();
+                return;
+
+            }
+            if (password.isEmpty()) {
+                Toast.makeText(CreateAccountActivity.this,
+                        "please enter a password",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
             createAccount(username, password);
         });
 

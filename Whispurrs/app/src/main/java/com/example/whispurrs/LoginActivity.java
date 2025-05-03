@@ -59,6 +59,25 @@ public class LoginActivity extends AppCompatActivity {
         enter.setOnClickListener(v -> {
             String username = user.getText().toString();
             String password = pass.getText().toString();
+            if (password.isEmpty() && username.isEmpty()) {
+                Toast.makeText(LoginActivity.this,
+                        "please enter login information",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (username.isEmpty()) {
+                Toast.makeText(LoginActivity.this,
+                        "please enter a username",
+                        Toast.LENGTH_LONG).show();
+                return;
+
+            }
+            if (password.isEmpty()) {
+                Toast.makeText(LoginActivity.this,
+                        "please enter a password",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
             signIn(username, password);
 //            onStart();
         });
@@ -182,7 +201,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // No user signed in, show login/signup UI
             Toast.makeText(LoginActivity.this,
-                    "username or password is incorrect. Try Again.",
+                    "username or password is incorrect. try again.",
                     Toast.LENGTH_LONG).show();
         }
     }
