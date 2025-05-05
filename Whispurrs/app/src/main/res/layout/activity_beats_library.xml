@@ -8,11 +8,252 @@
     android:background="#77B5BD"
     tools:context=".BeatsLibrary">
 
-    <Button
-        android:id="@+id/button2"
+
+
+
+    <FrameLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#77B5BD" >
+
+    </FrameLayout>
+
+
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="302dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/searchinput"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:hint="search beat"
+        android:inputType="textPersonName"
+        android:paddingStart="10dp"
+        android:textColor="#DD5588"
+        android:textColorHint="#77B5BD"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.357"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout"
+        app:layout_constraintVertical_bias="0.750">
+
+    </EditText>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="183dp"
-        tools:layout_editor_absoluteY="341dp" />
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Outline -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#FFDF7B"
+            android:shadowDx="-2"
+            android:shadowDy="-2"
+            android:shadowRadius="2"
+            android:text="Beats"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#FFDF7B"
+            android:shadowDx="-2"
+            android:shadowDy="-2"
+            android:shadowRadius="2"
+            android:text="Beats"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#FFDF7B"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="Beats"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#FFDF7B"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="Beats"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:text="Beats"
+            android:textColor="#FF7687"
+            android:textSize="60sp" />
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="409dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout"
+        app:layout_constraintVertical_bias="0.379">
+
+        <GridLayout
+            android:id="@+id/songContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alignmentMode="alignMargins"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:padding="16dp" />
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/searchicon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:rotationY="180"
+        android:text="⌕"
+        android:textColor="#FFF4B3"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.903"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.218" />
+
+
+
+
+    <!-- !!!!!!!!!!!!!!!!!!!!!! BOTTOM BAR !!!!!!!!!!!!!!!!!!!!!!  -->
+
+
+    <LinearLayout
+        android:id="@+id/bottomPlaybackBar"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:background="@drawable/nowplaying"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Album Art (Clickable) -->
+
+
+        <!-- Song Progress and Controls -->
+
+        <!-- Play/Pause Button -->
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageViewGif"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="245dp"
+        android:layout_marginTop="669dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/resizedsleepycat"
+        app:layout_constraintBottom_toBottomOf="@+id/mainLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/playPauseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@null"
+        android:contentDescription="Play/Pause"
+        android:scaleType="centerInside"
+        android:src="@drawable/play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/bottomPlaybackBar"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/bottomPlaybackBar" />
+
+    <Button
+        android:id="@+id/selectsong"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="340dp"
+        android:layout_weight="1"
+        android:background="@drawable/roundedbutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/bottomPlaybackBar"
+        app:layout_constraintTop_toTopOf="@+id/bottomPlaybackBar" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/mainLayout"
+        app:layout_constraintEnd_toEndOf="@+id/bottomPlaybackBar"
+        app:layout_constraintStart_toEndOf="@+id/selectsong"
+        app:layout_constraintTop_toTopOf="@+id/bottomPlaybackBar">
+
+        <TextView
+            android:id="@+id/songTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:paddingBottom="2dp"
+            android:text="now playing"
+            android:textColor="#FFF4B3"
+            android:textSize="18sp" />
+
+        <ProgressBar
+            android:id="@+id/songProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/progressbar"
+            android:backgroundTint="#FFDF7B"
+            android:max="100"
+            android:padding="2dp"
+            android:progress="0"
+            android:progressDrawable="@drawable/progress" />
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
