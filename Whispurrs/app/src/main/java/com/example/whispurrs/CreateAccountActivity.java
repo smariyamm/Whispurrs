@@ -30,7 +30,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Button enter;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
