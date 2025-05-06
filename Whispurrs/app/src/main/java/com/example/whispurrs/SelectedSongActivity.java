@@ -1,8 +1,10 @@
 package com.example.whispurrs;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,11 +27,18 @@ public class SelectedSongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_selected_song);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.selected_song_screen), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Button back = findViewById(R.id.backbutton);
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(SelectedSongActivity.this, BeatsLibrary.class);
+            startActivity(intent);
+        });
+
 
         String songName = getIntent().getStringExtra("songName");
         String songUrl = getIntent().getStringExtra("songUrl");
@@ -46,7 +55,6 @@ public class SelectedSongActivity extends AppCompatActivity {
         name4.setText(songName);
         name5.setText(songName);
 
-        progress = findViewById(R.id.songProgress); // initialize ProgressBar
 
         mediaPlayer = new MediaPlayer();
         try {
