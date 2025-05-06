@@ -8,18 +8,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Pair;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -48,6 +52,8 @@ public class BeatsLibrary extends AppCompatActivity {
     private ProgressBar progress;
     private TextView title;
     private EditText search;
+    private String SongUrl;
+    private String SongName;
 
     List<CloudBelt> belts = new ArrayList<>(); // stores all cloud belts
     Handler handler = new Handler(); // handler scheduals repeated updates (game loop)
@@ -62,18 +68,32 @@ public class BeatsLibrary extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_beats_library);
+        View selected = findViewById(R.id.selected_song_screen);
+//        View selectedSongLayout = findViewById(R.id.selected_song_screen);
+        selected.setVisibility(View.GONE);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+//        LinearLayout selected = findViewById(R.id.selectedsong);
+
         // Load the animated GIF into the ImageView using Glide
+        ImageView imageViewGif1 = findViewById(R.id.imageViewGif1);
+        Glide.with(this)
+                .asGif()
+                .load(R.drawable.resizedsleepycat)  // Your GIF in the drawable folder
+                .into(imageViewGif1);  // Load it into the ImageView
+
         ImageView imageViewGif = findViewById(R.id.imageViewGif);
         Glide.with(this)
                 .asGif()
                 .load(R.drawable.resizedsleepycat)  // Your GIF in the drawable folder
                 .into(imageViewGif);  // Load it into the ImageView
+
+
 
         songContainer = findViewById(R.id.songContainer);
 
@@ -95,6 +115,7 @@ public class BeatsLibrary extends AppCompatActivity {
             }
         };
         handler.post(runnable); // start loop
+
 
 
         dbRef = FirebaseDatabase.getInstance().getReference("Beats");
@@ -134,6 +155,27 @@ public class BeatsLibrary extends AppCompatActivity {
 
 
         selectsong = findViewById(R.id.selectsong);
+        selectsong.setOnClickListener(v ->
+        {
+            selected.setVisibility(View.VISIBLE);
+            // Example: show the song name in a TextView
+            TextView name1 = selected.findViewById(R.id.name1); // ensure this ID exists in activity_selected_song.xml
+            TextView name2 = selected.findViewById(R.id.name2);
+            TextView name3 = selected.findViewById(R.id.name3);
+            TextView name4 = selected.findViewById(R.id.name4);
+            TextView name5 = selected.findViewById(R.id.name5);
+            name1.setText(SongName);
+            name2.setText(SongName);
+            name3.setText(SongName);
+            name4.setText(SongName);
+            name5.setText(SongName);
+
+            Button back = selected.findViewById(R.id.backbutton);
+            back.setOnClickListener(v1 -> {
+                selected.setVisibility(View.GONE);
+            });
+
+        });
         loadSongs(""); // load all songs at startup
     }
 
@@ -170,7 +212,10 @@ public class BeatsLibrary extends AppCompatActivity {
                         songBtn.setLayoutParams(params);
 
                         songBtn.setOnClickListener(v -> {
-                            playSong(songUrl, songName);
+//                            playSong(songUrl, songName);
+                            Pair<String, String> songInfo = playSong(songUrl, songName);
+                            SongUrl = songInfo.first;
+                            SongName = songInfo.second;
                             title.setText(songName);
                         });
 
@@ -187,14 +232,42 @@ public class BeatsLibrary extends AppCompatActivity {
     }
 
 
-    private void playSong(String url, String name) {
+//    private void playSong(String url, String name) {
+//
+//
+//        if (mediaPlayer != null) {
+//            if (mediaPlayer.isPlaying()) {
+//                mediaPlayer.stop();
+//            }
+//            mediaPlayer.release();
+//            mediaPlayer = null;
+//        }
+//
+////        selectsong.setOnClickListener(v -> {
+////            Intent intent = new Intent(BeatsLibrary.this, SelectedSongActivity.class);
+////            intent.putExtra("songName", name);
+////            intent.putExtra("songUrl", url);
+////            startActivity(intent);
+////        });
+//
+//
+//        mediaPlayer = new MediaPlayer();
+//        try {
+//            mediaPlayer.setDataSource(url);
+//            mediaPlayer.setOnPreparedListener(mp -> {
+//                mp.start();
+//                progress.setMax(mp.getDuration());
+//                startUpdatingProgress();
+//                pauseplay.setImageResource(R.drawable.pause);
+//            });
+//            mediaPlayer.prepareAsync(); // prepare asynchronously
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Toast.makeText(this, "Failed to play song", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-        selectsong.setOnClickListener(v -> {
-            Intent intent = new Intent(BeatsLibrary.this, SelectedSongActivity.class);
-            intent.putExtra("songName", name);
-            intent.putExtra("songUrl", url);
-            startActivity(intent);
-        });
+    private Pair<String, String> playSong(String url, String name) {
 
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
@@ -218,7 +291,10 @@ public class BeatsLibrary extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(this, "Failed to play song", Toast.LENGTH_SHORT).show();
         }
+
+        return new Pair<>(url, name);
     }
+
 
     @Override
     protected void onDestroy() {
