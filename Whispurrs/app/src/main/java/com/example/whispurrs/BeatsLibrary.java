@@ -6,12 +6,14 @@ import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +39,7 @@ import java.util.List;
 
 public class BeatsLibrary extends AppCompatActivity {
 
-//    private LinearLayout songContainer;
+    //    private LinearLayout songContainer;
     private MediaPlayer mediaPlayer;
     private DatabaseReference dbRef;
     private GridLayout songContainer; // was LinearLayout before
@@ -45,6 +47,7 @@ public class BeatsLibrary extends AppCompatActivity {
     private Button selectsong;
     private ProgressBar progress;
     private TextView title;
+    private EditText search;
 
     List<CloudBelt> belts = new ArrayList<>(); // stores all cloud belts
     Handler handler = new Handler(); // handler scheduals repeated updates (game loop)
@@ -52,9 +55,6 @@ public class BeatsLibrary extends AppCompatActivity {
     FrameLayout parentLayout; // holds all cloud views
     private Handler progressHandler = new Handler();
     private Runnable progressRunnable;
-
-
-
 
 
     @Override
@@ -98,58 +98,27 @@ public class BeatsLibrary extends AppCompatActivity {
 
 
         dbRef = FirebaseDatabase.getInstance().getReference("Beats");
+        title = findViewById(R.id.songTitle);
+        search = findViewById(R.id.search);
 
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        search.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot songSnap : snapshot.getChildren()) {
-                    String songName = songSnap.getKey();
-                    String songUrl = songSnap.getValue(String.class);
-
-//                    Button songButton = new Button(BeatsLibrary.this);
-//                    songButton.setText(songName);
-//                    songButton.setOnClickListener(v -> playSong(songUrl));
-//                    songContainer.addView(songButton);
-
-                    Button songBtn = new Button(BeatsLibrary.this);
-                    songBtn.setTextColor(Color.parseColor("#000000"));
-                    songBtn.setTextSize(12);
-                    songBtn.setBackgroundColor(Color.parseColor("#FFF4B3"));
-
-                    GradientDrawable shape = new GradientDrawable();
-                    shape.setCornerRadius(24); // rounded corners
-                    shape.setColor(Color.parseColor("#FFF4B3"));
-                    songBtn.setBackground(shape);
-
-                    Typeface typeface = ResourcesCompat.getFont(BeatsLibrary.this, R.font.pixelify_sans_medium);
-                    songBtn.setTypeface(typeface);
-
-                    songBtn.setText(songName);
-                    GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-                    params.width = 0;
-                    params.height = GridLayout.LayoutParams.WRAP_CONTENT;
-                    params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f); // 1 column weight
-                    params.setMargins(10, 10, 10, 10);
-                    songBtn.setText(songName);
-                    songBtn.setOnClickListener(v -> playSong(songUrl));
-                    songBtn.setLayoutParams(params);
-                    songContainer.addView(songBtn);
-
-                }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
-                Toast.makeText(BeatsLibrary.this, "Error loading songs", Toast.LENGTH_SHORT).show();
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                loadSongs(s.toString().trim());
             }
 
-
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
 
 
         pauseplay = findViewById(R.id.playPauseButton); // Ensure your ImageButton has this ID in XML
         progress = findViewById(R.id.songProgress);
-        title = findViewById(R.id.songTitle);
         pauseplay.setOnClickListener(v -> {
             if (mediaPlayer != null) {
                 if (mediaPlayer.isPlaying()) {
@@ -165,20 +134,76 @@ public class BeatsLibrary extends AppCompatActivity {
 
 
         selectsong = findViewById(R.id.selectsong);
+        loadSongs(""); // load all songs at startup
+    }
+
+
+    private void loadSongs(String query) {
+        songContainer.removeAllViews(); // clear old buttons
+
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot songSnap : snapshot.getChildren()) {
+                    String songName = songSnap.getKey();
+                    String songUrl = songSnap.getValue(String.class);
+
+                    if (query.isEmpty() || songName.toLowerCase().contains(query.toLowerCase())) {
+                        Button songBtn = new Button(BeatsLibrary.this);
+                        songBtn.setTextColor(Color.parseColor("#000000"));
+                        songBtn.setTextSize(12);
+
+                        GradientDrawable shape = new GradientDrawable();
+                        shape.setCornerRadius(24);
+                        shape.setColor(Color.parseColor("#FFF4B3"));
+                        songBtn.setBackground(shape);
+
+                        Typeface typeface = ResourcesCompat.getFont(BeatsLibrary.this, R.font.pixelify_sans_medium);
+                        songBtn.setTypeface(typeface);
+
+                        songBtn.setText(songName);
+                        GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+                        params.width = 0;
+                        params.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                        params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+                        params.setMargins(10, 10, 10, 10);
+                        songBtn.setLayoutParams(params);
+
+                        songBtn.setOnClickListener(v -> {
+                            playSong(songUrl, songName);
+                            title.setText(songName);
+                        });
+
+                        songContainer.addView(songBtn);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(BeatsLibrary.this, "Error loading songs", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void playSong(String url, String name) {
+
         selectsong.setOnClickListener(v -> {
             Intent intent = new Intent(BeatsLibrary.this, SelectedSongActivity.class);
+            intent.putExtra("songName", name);
+            intent.putExtra("songUrl", url);
             startActivity(intent);
         });
 
-
-
-
-    }
-
-    private void playSong(String url) {
         if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
             mediaPlayer.release();
+            mediaPlayer = null;
         }
+
         mediaPlayer = new MediaPlayer();
         try {
             mediaPlayer.setDataSource(url);
@@ -187,10 +212,6 @@ public class BeatsLibrary extends AppCompatActivity {
                 progress.setMax(mp.getDuration());
                 startUpdatingProgress();
                 pauseplay.setImageResource(R.drawable.pause);
-
-                String fileName = url.substring(url.lastIndexOf('/') + 1);
-                title.setText(fileName);
-
             });
             mediaPlayer.prepareAsync(); // prepare asynchronously
         } catch (IOException e) {
@@ -198,7 +219,6 @@ public class BeatsLibrary extends AppCompatActivity {
             Toast.makeText(this, "Failed to play song", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     protected void onDestroy() {
