@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFAF80"
+    tools:context=".HomeActivity">
+
+
+
+    <View
+        android:id="@+id/cream"
+        android:layout_width="383dp"
+        android:layout_height="434dp"
+        android:background="@drawable/creamroundedrectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- ImageView for the GIF -->
+
+    <ImageView
+        android:id="@+id/imageViewGif"
+        android:layout_width="290dp"
+        android:layout_height="290dp"
+        android:layout_marginTop="52dp"
+        android:rotationY="180"
+        android:scaleType="fitXY"
+        android:src="@drawable/resizedsleepycat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Outline -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#77B5BD"
+            android:shadowDx="-2"
+            android:shadowDy="-2"
+            android:shadowRadius="2"
+            android:text="Home"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#77B5BD"
+            android:shadowDx="-2"
+            android:shadowDy="-2"
+            android:shadowRadius="2"
+            android:text="Home"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#77B5BD"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="Home"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#77B5BD"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="Home"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:text="Home"
+            android:textColor="#FF7687"
+            android:textSize="60sp" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/enter"
+        android:layout_width="250dp"
+        android:layout_height="55dp"
+        android:background="@drawable/roundedbutton"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text="beats"
+        android:textAllCaps="false"
+        android:textColor="#FFDF7B"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cream"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewGif" />
+
+    <Button
+        android:id="@+id/enter2"
+        android:layout_width="250dp"
+        android:layout_height="55dp"
+        android:background="@drawable/roundedbutton"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text="my playlists"
+        android:textAllCaps="false"
+        android:textColor="#FFDF7B"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cream"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewGif"
+        app:layout_constraintVertical_bias="0.705" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

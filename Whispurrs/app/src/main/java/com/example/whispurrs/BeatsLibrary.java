@@ -153,31 +153,42 @@ public class BeatsLibrary extends AppCompatActivity {
             }
         });
 
+        ImageButton replay = findViewById(R.id.replay);
+        replay.setOnClickListener(v -> {
+            playSong(SongUrl, SongName);
+        });
+
 
         selectsong = findViewById(R.id.selectsong);
         selectsong.setOnClickListener(v ->
         {
-            selected.setVisibility(View.VISIBLE);
-            // Example: show the song name in a TextView
-            TextView name1 = selected.findViewById(R.id.name1); // ensure this ID exists in activity_selected_song.xml
-            TextView name2 = selected.findViewById(R.id.name2);
-            TextView name3 = selected.findViewById(R.id.name3);
-            TextView name4 = selected.findViewById(R.id.name4);
-            TextView name5 = selected.findViewById(R.id.name5);
-            name1.setText(SongName);
-            name2.setText(SongName);
-            name3.setText(SongName);
-            name4.setText(SongName);
-            name5.setText(SongName);
+            if (selected.getVisibility() == View.GONE) {
+                selected.setVisibility(View.VISIBLE);
+                // Example: show the song name in a TextView
+                TextView name1 = selected.findViewById(R.id.name1); // ensure this ID exists in activity_selected_song.xml
+                TextView name2 = selected.findViewById(R.id.name2);
+                TextView name3 = selected.findViewById(R.id.name3);
+                TextView name4 = selected.findViewById(R.id.name4);
+                TextView name5 = selected.findViewById(R.id.name5);
+                name1.setText(SongName);
+                name2.setText(SongName);
+                name3.setText(SongName);
+                name4.setText(SongName);
+                name5.setText(SongName);
+
+            } else {
+                selected.setVisibility(View.GONE);
+            }
 
             Button back = selected.findViewById(R.id.backbutton);
             back.setOnClickListener(v1 -> {
+
                 selected.setVisibility(View.GONE);
             });
 
         });
         loadSongs(""); // load all songs at startup
-    }
+        }
 
 
     private void loadSongs(String query) {
