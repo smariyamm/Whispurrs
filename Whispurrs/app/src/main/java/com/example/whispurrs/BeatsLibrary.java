@@ -191,6 +191,7 @@ public class BeatsLibrary extends AppCompatActivity {
         }
 
 
+
     private void loadSongs(String query) {
         songContainer.removeAllViews(); // clear old buttons
 
@@ -199,7 +200,10 @@ public class BeatsLibrary extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot songSnap : snapshot.getChildren()) {
                     String songName = songSnap.getKey();
-                    String songUrl = songSnap.getValue(String.class);
+                    String songUrl = songSnap.child("beat").getValue(String.class);
+                    String gifUrl = songSnap.child("gif").getValue(String.class);
+
+                    if (songUrl == null) continue; // skip if no beat url
 
                     if (query.isEmpty() || songName.toLowerCase().contains(query.toLowerCase())) {
                         Button songBtn = new Button(BeatsLibrary.this);
@@ -222,12 +226,25 @@ public class BeatsLibrary extends AppCompatActivity {
                         params.setMargins(10, 10, 10, 10);
                         songBtn.setLayoutParams(params);
 
+//                        GradientDrawable border = new GradientDrawable();
+//                        border.setCornerRadius(24);
+//                        border.setColor(Color.parseColor("#FFF4B3")); // background color
+//                        border.setStroke(4, Color.parseColor("#000000")); // width & border color
+//                        songBtn.setBackground(border);
+
+
                         songBtn.setOnClickListener(v -> {
-//                            playSong(songUrl, songName);
                             Pair<String, String> songInfo = playSong(songUrl, songName);
                             SongUrl = songInfo.first;
                             SongName = songInfo.second;
                             title.setText(songName);
+
+                            ImageView gifView = findViewById(R.id.songgif);
+                            Glide.with(BeatsLibrary.this)
+                                    .asGif()
+                                    .load(gifUrl)
+                                    .centerCrop()
+                                    .into(gifView);
                         });
 
                         songContainer.addView(songBtn);

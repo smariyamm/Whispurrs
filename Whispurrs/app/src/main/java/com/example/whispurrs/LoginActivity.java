@@ -173,7 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             // Do something with the signed-in user, e.g., navigate to a different screen
-                            Intent intent = new Intent(LoginActivity.this, BeatsLibrary.class);
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
                             finish(); // optional: prevent going back to login
                         } else {
