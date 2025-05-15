@@ -5,10 +5,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFAF80"
+    android:background="#77B5BD"
     tools:context=".HomeActivity">
 
+    <FrameLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#77B5BD" />
 
+
+    <!-- ImageView for the GIF -->
 
     <View
         android:id="@+id/cream"
@@ -17,10 +24,10 @@
         android:background="@drawable/creamroundedrectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- ImageView for the GIF -->
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.472" />
 
     <ImageView
         android:id="@+id/imageViewGif"
@@ -40,7 +47,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/enter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -109,37 +118,55 @@
     </FrameLayout>
 
     <Button
-        android:id="@+id/enter"
-        android:layout_width="250dp"
+        android:id="@+id/beats"
+        android:layout_width="300dp"
         android:layout_height="55dp"
-        android:background="@drawable/roundedbutton"
+        android:background="@drawable/roundedcoral"
         android:fontFamily="@font/pixelify_sans_medium"
         android:text="beats"
         android:textAllCaps="false"
         android:textColor="#FFDF7B"
-        android:textSize="30sp"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="@+id/cream"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewGif" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewGif"
+        app:layout_constraintVertical_bias="0.071" />
 
     <Button
-        android:id="@+id/enter2"
-        android:layout_width="250dp"
+        android:id="@+id/myplaylists"
+        android:layout_width="300dp"
         android:layout_height="55dp"
-        android:background="@drawable/roundedbutton"
+        android:background="@drawable/roundedcoral"
         android:fontFamily="@font/pixelify_sans_medium"
         android:text="my playlists"
         android:textAllCaps="false"
         android:textColor="#FFDF7B"
-        android:textSize="30sp"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="@+id/cream"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewGif"
-        app:layout_constraintVertical_bias="0.705" />
+        app:layout_constraintVertical_bias="0.378" />
+
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:background="@drawable/roundedcoral"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text="upload song"
+        android:textAllCaps="false"
+        android:textColor="#FFDF7B"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cream"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewGif"
+        app:layout_constraintVertical_bias="0.693" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
