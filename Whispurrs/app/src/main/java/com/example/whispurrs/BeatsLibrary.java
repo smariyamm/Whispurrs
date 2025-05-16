@@ -1,6 +1,7 @@
 package com.example.whispurrs;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
@@ -48,7 +49,7 @@ public class BeatsLibrary extends AppCompatActivity {
     private DatabaseReference dbRef;
     private GridLayout songContainer; // was LinearLayout before
     private ImageButton pauseplay;
-    private Button selectsong;
+    private ImageButton selectsong;
     private ProgressBar progress;
     private TextView title;
     private EditText search;
@@ -61,6 +62,7 @@ public class BeatsLibrary extends AppCompatActivity {
     FrameLayout parentLayout; // holds all cloud views
     private Handler progressHandler = new Handler();
     private Runnable progressRunnable;
+    private View bottombar;
 
 
     @Override
@@ -71,11 +73,22 @@ public class BeatsLibrary extends AppCompatActivity {
         View selected = findViewById(R.id.selected_song_screen);
 //        View selectedSongLayout = findViewById(R.id.selected_song_screen);
         selected.setVisibility(View.GONE);
+        bottombar = findViewById(R.id.bottombar);
+        bottombar.setVisibility(View.GONE);
+
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        Button home = bottombar.findViewById(R.id.home);
+        home.setOnClickListener(v -> {
+            Intent intent = new Intent(BeatsLibrary.this, HomeActivity.class);
+            startActivity(intent);
         });
 
 //        LinearLayout selected = findViewById(R.id.selectedsong);
@@ -138,8 +151,8 @@ public class BeatsLibrary extends AppCompatActivity {
         });
 
 
-        pauseplay = findViewById(R.id.playPauseButton); // Ensure your ImageButton has this ID in XML
-        progress = findViewById(R.id.songProgress);
+        pauseplay = bottombar.findViewById(R.id.playPauseButton); // Ensure your ImageButton has this ID in XML
+        progress = bottombar.findViewById(R.id.songProgress);
         pauseplay.setOnClickListener(v -> {
             if (mediaPlayer != null) {
                 if (mediaPlayer.isPlaying()) {
@@ -159,7 +172,7 @@ public class BeatsLibrary extends AppCompatActivity {
         });
 
 
-        selectsong = findViewById(R.id.selectsong);
+        selectsong = bottombar.findViewById(R.id.selectsong);
         selectsong.setOnClickListener(v ->
         {
             if (selected.getVisibility() == View.GONE) {
@@ -170,11 +183,12 @@ public class BeatsLibrary extends AppCompatActivity {
                 TextView name3 = selected.findViewById(R.id.name3);
                 TextView name4 = selected.findViewById(R.id.name4);
                 TextView name5 = selected.findViewById(R.id.name5);
-                name1.setText(SongName);
-                name2.setText(SongName);
-                name3.setText(SongName);
-                name4.setText(SongName);
-                name5.setText(SongName);
+                String sname = SongName;
+                name1.setText(sname);
+                name2.setText(sname);
+                name3.setText(sname);
+                name4.setText(sname);
+                name5.setText(sname);
 
             } else {
                 selected.setVisibility(View.GONE);
@@ -234,12 +248,27 @@ public class BeatsLibrary extends AppCompatActivity {
 
 
                         songBtn.setOnClickListener(v -> {
+
+                            bottombar.setVisibility(View.VISIBLE);
+
                             Pair<String, String> songInfo = playSong(songUrl, songName);
                             SongUrl = songInfo.first;
                             SongName = songInfo.second;
                             title.setText(songName);
 
+//                            selectsong.setBackground(gifUrl);
+                            selectsong.setPadding(15, 15, 15, 15);
+                            Glide.with(BeatsLibrary.this)
+//                                    .asGif()
+                                    .asBitmap()
+                                    .load(gifUrl)
+                                    .centerCrop()
+                                    .into(selectsong);
+
+
+
                             ImageView gifView = findViewById(R.id.songgif);
+                            gifView.setPadding(45, 45, 45, 45);
                             Glide.with(BeatsLibrary.this)
                                     .asGif()
                                     .load(gifUrl)
