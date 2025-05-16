@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottombar"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_width="match_parent"
+    android:layout_gravity="bottom"
+    android:layout_height="225dp"
+    android:background="#77B5BD"
+    tools:context=".BeatsLibrary"
+
+    >
+
+
+    <FrameLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#77B5BD"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomPlaybackBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <!-- !!!!!!!!!!!!!!!!!!!!!! BOTTOM BAR !!!!!!!!!!!!!!!!!!!!!!  -->
+
+
+    <LinearLayout
+        android:id="@+id/bottomPlaybackBar"
+        android:layout_width="0dp"
+        android:layout_height="140dp"
+        android:background="@drawable/nowplaying"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Album Art (Clickable) -->
+
+
+        <!-- Song Progress and Controls -->
+
+        <!-- Play/Pause Button -->
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/playPauseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:contentDescription="Play/Pause"
+        android:scaleType="centerInside"
+        android:src="@drawable/play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/skip"
+        app:layout_constraintStart_toEndOf="@+id/selectsong"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageButton
+        android:id="@+id/selectsong"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="330dp"
+        android:layout_marginBottom="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/roundedbutton"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:textColor="#FFF4B3"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/bottomPlaybackBar"
+        app:layout_constraintStart_toStartOf="@+id/bottomPlaybackBar"
+        app:layout_constraintTop_toTopOf="@+id/bottomPlaybackBar" />
+
+    <Button
+        android:id="@+id/home"
+        android:layout_width="60dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="330dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/roundedbutton"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text="home  ⌂"
+        android:textAllCaps="false"
+        android:textColor="#FFF4B3"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/bottomPlaybackBar"
+        app:layout_constraintTop_toBottomOf="@+id/selectsong" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="65dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomPlaybackBar"
+        app:layout_constraintEnd_toEndOf="@+id/bottomPlaybackBar"
+        app:layout_constraintStart_toEndOf="@+id/selectsong"
+        app:layout_constraintTop_toBottomOf="@+id/mainLayout">
+
+        <TextView
+            android:id="@+id/songTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:paddingBottom="2dp"
+            android:text="now playing"
+            android:textColor="#FFF4B3"
+            android:textSize="18sp" />
+
+        <ProgressBar
+            android:id="@+id/songProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/progressbar"
+            android:backgroundTint="#FFDF7B"
+            android:max="100"
+            android:padding="2dp"
+            android:progress="0"
+            android:progressDrawable="@drawable/progress" />
+    </LinearLayout>
+
+<!--    <include-->
+<!--        android:id="@+id/selected_song_screen"-->
+<!--        layout="@layout/activity_selected_song"-->
+<!--        android:visibility="gone" />-->
+
+    <ImageButton
+        android:id="@+id/skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="350dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/skip"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/bottomPlaybackBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/skip"
+        android:rotationY="180"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playPauseButton"
+        app:layout_constraintStart_toEndOf="@+id/selectsong"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageButton
+        android:id="@+id/replay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/replay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/skip"
+        app:layout_constraintStart_toEndOf="@+id/playPauseButton"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageView
+        android:id="@+id/imageViewGif1"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="245dp"
+        android:layout_marginBottom="72dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/resizedsleepycat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

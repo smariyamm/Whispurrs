@@ -19,8 +19,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="580dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +41,7 @@
             android:shadowRadius="2"
             android:textAlignment="center"
             android:textColor="#77B5BD"
-            android:textSize="60sp" />
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/name2"
@@ -53,7 +55,7 @@
             android:shadowRadius="2"
             android:textAlignment="center"
             android:textColor="#77B5BD"
-            android:textSize="60sp" />
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/name3"
@@ -67,7 +69,7 @@
             android:shadowRadius="2"
             android:textAlignment="center"
             android:textColor="#77B5BD"
-            android:textSize="60sp" />
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/name4"
@@ -81,17 +83,21 @@
             android:shadowRadius="2"
             android:textAlignment="center"
             android:textColor="#77B5BD"
-            android:textSize="60sp" />
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/name5"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pixelify_sans_medium"
             android:letterSpacing="0.07"
+            android:shadowColor="#DD5588"
+            android:shadowDx="-2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
             android:textAlignment="center"
             android:textColor="#77B5BD"
-            android:textSize="60sp" />
+            android:textSize="40sp" />
     </FrameLayout>
 
 
@@ -102,8 +108,8 @@
         android:id="@+id/playlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="290dp"
-        android:layout_marginBottom="130dp"
+        android:layout_marginTop="190dp"
+        android:layout_marginBottom="105dp"
         android:fontFamily="@font/pixelify_sans_medium"
         android:gravity="center"
         android:letterSpacing="0.09"
@@ -113,16 +119,18 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.198"
+        app:layout_constraintHorizontal_bias="0.288"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
         app:layout_constraintVertical_bias="0.849" />
+
 
     <TextView
         android:id="@+id/liked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:layout_marginBottom="100dp"
         android:fontFamily="@font/pixelify_sans_medium"
         android:gravity="center"
         android:letterSpacing="0.09"
@@ -130,47 +138,44 @@
         android:text="add to liked"
         android:textColor="#77B5BD"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewGif"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.146"
+        app:layout_constraintHorizontal_bias="0.213"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playlist"
-        app:layout_constraintVertical_bias="0.94" />
+        app:layout_constraintVertical_bias="0.416" />
 
     <ImageButton
         android:id="@+id/addplaylist"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="120dp"
         android:background="@drawable/blueplus"
         android:fontFamily="@font/pixelify_sans_medium"
         android:shadowColor="#FFDF7B"
         android:textColor="#DD5588"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/playlist"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.458"
+        app:layout_constraintHorizontal_bias="0.408"
         app:layout_constraintStart_toEndOf="@+id/playlist"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.703" />
+        app:layout_constraintTop_toTopOf="@+id/playlist"
+        app:layout_constraintVertical_bias="0.697" />
 
     <ImageButton
         android:id="@+id/addliked"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="120dp"
         android:background="@drawable/blueplus"
         android:fontFamily="@font/pixelify_sans_medium"
         android:shadowColor="#FFDF7B"
         android:textColor="#DD5588"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/liked"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.876"
+        app:layout_constraintHorizontal_bias="0.886"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.779" />
-
+        app:layout_constraintTop_toTopOf="@+id/liked"
+        app:layout_constraintVertical_bias="0.809" />
 
     <Button
         android:id="@+id/backbutton"
@@ -191,13 +196,12 @@
         app:layout_constraintVertical_bias="0.018" />
 
 
-
     <ImageView
         android:id="@+id/imageViewGif"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginStart="245dp"
-        android:layout_marginTop="715dp"
+        android:layout_marginTop="710dp"
         android:scaleType="fitXY"
         android:src="@drawable/resizedsleepycat"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -208,9 +212,9 @@
 
     <ImageView
         android:id="@+id/songgif"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:background="@drawable/selectedsongborder"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/playlist"
         app:layout_constraintEnd_toEndOf="parent"
