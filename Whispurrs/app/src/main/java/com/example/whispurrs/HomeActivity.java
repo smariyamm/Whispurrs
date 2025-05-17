@@ -18,6 +18,8 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
+
+
     List<CloudBelt> belts = new ArrayList<>(); // stores all cloud belts
     Handler handler = new Handler(); // handler scheduals repeated updates (game loop)
     Runnable runnable; // (moves all clouds each frame)
@@ -34,6 +36,9 @@ public class HomeActivity extends AppCompatActivity {
             return insets;
         });
 
+        ActivityCounter.home_activity++; // access or update
+
+
         Button beats = findViewById(R.id.beats);
         Button playlists = findViewById(R.id.myplaylists);
         Button upload = findViewById(R.id.upload);
@@ -45,6 +50,11 @@ public class HomeActivity extends AppCompatActivity {
         playlists.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, PlaylistsActivity.class);
             startActivity(intent);
+        });
+        upload.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, UploadActivity.class);
+            startActivity(intent);
+
         });
 
 //
