@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="#FFDF7B"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UploadActivity">
+
+    <FrameLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFDF7B"
+        tools:layout_editor_absoluteX="66dp"
+        tools:layout_editor_absoluteY="-27dp">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/backbutton"
+        android:layout_width="130dp"
+        android:layout_height="35dp"
+        android:background="@drawable/yellowroundedbutton"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text=" ⬅  my beats"
+        android:textAllCaps="false"
+        android:textColor="#FF7687"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:paddingBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.018" />
+
+    <Button
+        android:id="@+id/home"
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="140dp"
+        android:layout_weight="1"
+        android:background="@drawable/roundedcoral"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text="home  ⌂"
+        android:textAllCaps="false"
+        android:textColor="#FFF4B3"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/upload" />
+
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="310dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="500dp"
+        android:background="@drawable/input_uploads"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:hint="beat name"
+        android:inputType="textPersonName"
+        android:paddingStart="10dp"
+        android:textColor="#DD5588"
+        android:textColorHint="#77B5BD"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"/>
+
+    <EditText
+        android:id="@+id/beaturl"
+        android:layout_width="310dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/input_uploads"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:hint="beat url"
+        android:inputType="textPersonName"
+        android:paddingStart="10dp"
+        android:textColor="#DD5588"
+        android:textColorHint="#77B5BD"
+        app:layout_constraintBottom_toTopOf="@+id/gifurl"
+        app:layout_constraintEnd_toEndOf="@+id/name"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name"/>
+
+    <EditText
+        android:id="@+id/gifurl"
+        android:layout_width="310dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/input_uploads"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:hint="animation url"
+        android:inputType="textPersonName"
+        android:paddingStart="10dp"
+        android:textColor="#DD5588"
+        android:textColorHint="#77B5BD"
+        app:layout_constraintEnd_toEndOf="@+id/beaturl"
+        app:layout_constraintStart_toStartOf="@+id/beaturl"
+        app:layout_constraintTop_toBottomOf="@+id/beaturl">
+
+    </EditText>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Outline -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#77B5BD"
+            android:shadowDx="-2"
+            android:shadowDy="-2"
+            android:shadowRadius="2"
+            android:text="Upload   Beat"
+            android:textAlignment="center"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#77B5BD"
+            android:shadowDx="-2"
+            android:shadowDy="-2"
+            android:shadowRadius="2"
+            android:text="Upload   Beat"
+            android:textAlignment="center"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#77B5BD"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="Upload   Beat"
+            android:textAlignment="center"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:shadowColor="#77B5BD"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="Upload   Beat"
+            android:textAlignment="center"
+            android:textColor="#FFDF7B"
+            android:textSize="60sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pixelify_sans_medium"
+            android:letterSpacing="0.07"
+            android:text="Upload   Beat"
+            android:textAlignment="center"
+            android:textColor="#FF7687"
+            android:textSize="60sp" />
+    </FrameLayout>
+
+
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="340dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/roundedcoral"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text="upload beat"
+        android:textAllCaps="false"
+        android:textColor="#FFF4B3"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/gifurl"
+        app:layout_constraintStart_toStartOf="@+id/gifurl"
+        app:layout_constraintTop_toBottomOf="@+id/gifurl" />
+
+
+
+        <include
+            android:id="@+id/bottombar"
+            layout="@layout/bottom_bar"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/selected_song_screen"
+            layout="@layout/activity_selected_song"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/activity_home_2"
+            layout="@layout/activity_home_type2"
+            android:visibility="gone" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

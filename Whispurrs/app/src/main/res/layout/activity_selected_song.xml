@@ -180,7 +180,7 @@
     <Button
         android:id="@+id/backbutton"
         android:layout_width="91dp"
-        android:layout_height="29dp"
+        android:layout_height="35dp"
         android:background="@drawable/yellowroundedbutton"
         android:fontFamily="@font/pixelify_sans_medium"
         android:text=" ⬅  back"
@@ -188,6 +188,7 @@
         android:textColor="#DD5588"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:paddingBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.056"

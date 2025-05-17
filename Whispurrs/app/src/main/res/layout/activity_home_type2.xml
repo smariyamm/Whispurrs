@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/activity_home_2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="726dp"
     android:background="#77B5BD"
     tools:context=".HomeActivity">
 
@@ -21,6 +21,7 @@
         android:id="@+id/cream"
         android:layout_width="383dp"
         android:layout_height="434dp"
+        android:layout_marginTop="170dp"
         android:background="@drawable/creamroundedrectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,10 +50,10 @@
         android:layout_gravity="center"
         android:layout_marginTop="260dp"
         android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/beats"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/beats">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- Outline -->
         <TextView
@@ -167,6 +168,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewGif"
         app:layout_constraintVertical_bias="0.693" />
+
+    <ImageView
+        android:id="@+id/gif_bottombar"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="245dp"
+        android:layout_marginTop="710dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/resizedsleepycat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

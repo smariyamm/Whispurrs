@@ -63,6 +63,7 @@ public class BeatsLibrary extends AppCompatActivity {
     private Handler progressHandler = new Handler();
     private Runnable progressRunnable;
     private View bottombar;
+    private View activity_home_2;
 
 
     @Override
@@ -76,6 +77,9 @@ public class BeatsLibrary extends AppCompatActivity {
         bottombar = findViewById(R.id.bottombar);
         bottombar.setVisibility(View.GONE);
 
+        activity_home_2 = findViewById(R.id.activity_home_2);
+        activity_home_2.setVisibility(View.GONE);
+
 
 
 
@@ -87,9 +91,29 @@ public class BeatsLibrary extends AppCompatActivity {
 
         Button home = bottombar.findViewById(R.id.home);
         home.setOnClickListener(v -> {
-            Intent intent = new Intent(BeatsLibrary.this, HomeActivity.class);
-            startActivity(intent);
+            if (activity_home_2.getVisibility() == View.VISIBLE) {
+                activity_home_2.setVisibility((View.GONE));
+            } else {
+                Button beats = findViewById(R.id.beats);
+                Button playlists = findViewById(R.id.myplaylists);
+                Button upload = findViewById(R.id.upload);
+
+                beats.setOnClickListener(v1 -> {
+                    activity_home_2.setVisibility(View.GONE);
+                });
+                playlists.setOnClickListener(v1 -> {
+                    Intent intent = new Intent(BeatsLibrary.this, PlaylistsActivity.class);
+                    startActivity(intent);
+                });
+                upload.setOnClickListener(v1 -> {
+                    Intent intent = new Intent(BeatsLibrary.this, UploadActivity.class);
+                    startActivity(intent);
+
+                });
+                activity_home_2.setVisibility((View.VISIBLE));
+            }
         });
+
 
 //        LinearLayout selected = findViewById(R.id.selectedsong);
 

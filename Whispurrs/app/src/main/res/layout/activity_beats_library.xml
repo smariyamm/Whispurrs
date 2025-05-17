@@ -165,6 +165,12 @@
         layout="@layout/activity_selected_song"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/activity_home_2"
+        layout="@layout/activity_home_type2"
+        android:visibility="gone" />
+
+
     <!-- !!!!!!!!!!!!!!!!!!!!!! BOTTOM BAR !!!!!!!!!!!!!!!!!!!!!!  -->
 
 
