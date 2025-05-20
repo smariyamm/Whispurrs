@@ -19,7 +19,7 @@
     </FrameLayout>
 
     <Button
-        android:id="@+id/backbutton"
+        android:id="@+id/mybeatsbutton"
         android:layout_width="130dp"
         android:layout_height="35dp"
         android:background="@drawable/yellowroundedbutton"

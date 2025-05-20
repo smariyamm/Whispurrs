@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class UploadActivity extends AppCompatActivity {
 
-    EditText name, beaturl, animationurl;
 
 
     @Override
@@ -28,16 +28,43 @@ public class UploadActivity extends AppCompatActivity {
             return insets;
         });
 
+        EditText beatname = findViewById(R.id.name);
+        EditText beaturl1 = findViewById(R.id.beaturl);
+        EditText beatanimationurl = findViewById(R.id.gifurl);
+
         Button upload = findViewById(R.id.upload);
         Button home = findViewById(R.id.home);
+        Button mybeats = findViewById(R.id.mybeatsbutton);
 
-        name = findViewById(R.id.name);
-        beaturl = findViewById(R.id.beaturl);
-        animationurl = findViewById(R.id.gifurl);
+        mybeats.setOnClickListener(v -> {
+            //Intent intent = new Intent(UploadActivity.this, )
+        });
 
         home.setOnClickListener(v -> {
             Intent intent = new Intent(UploadActivity.this, HomeActivity.class);
             startActivity(intent);
         });
+
+        upload.setOnClickListener(v -> {
+            String name = beatname.getText().toString();
+            String beaturl = beaturl1.getText().toString();
+            String animationurl = beatanimationurl.getText().toString();
+
+            if (name.isEmpty() || beaturl.isEmpty() || animationurl.isEmpty()) {
+                Toast.makeText(UploadActivity.this,
+                        "please enter all fields",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            // add in checks for if url is legit
+            // add user name to song when uploading
+
+
+
+
+
+        });
+
     }
 }
