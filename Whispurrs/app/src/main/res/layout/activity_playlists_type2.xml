@@ -2,12 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_playlists"
+    android:id="@+id/activity_playlists_2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="726dp"
     android:background="#77B5BD"
-    tools:context=".PlaylistsActivity"
-    >
+    tools:context=".PlaylistsActivity">
 
 
     <Button
@@ -141,15 +140,16 @@
 
     <ImageView
         android:id="@+id/imageViewGif"
-        android:layout_width="220dp"
-        android:layout_height="238dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="245dp"
+        android:layout_marginTop="715dp"
         android:scaleType="fitXY"
         android:src="@drawable/resizedsleepycat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.973"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.103" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

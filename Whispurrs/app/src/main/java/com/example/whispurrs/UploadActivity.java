@@ -13,6 +13,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
 public class UploadActivity extends AppCompatActivity {
 
 
@@ -60,11 +65,29 @@ public class UploadActivity extends AppCompatActivity {
             // add in checks for if url is legit
             // add user name to song when uploading
 
+            // Upload to Firebase
+            DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Beats");
 
+            HashMap<String, Object> beatData = new HashMap<>();
+            beatData.put("beat", beaturl);
+            beatData.put("gif", animationurl);
+//            beatData.put("user", username);
 
-
-
+            dbRef.child(name).setValue(beatData)
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(UploadActivity.this,
+                                "Beat uploaded successfully!",
+                                Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(UploadActivity.this,
+                                "Upload failed: " + e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    });
         });
+
+
+
 
     }
 }
