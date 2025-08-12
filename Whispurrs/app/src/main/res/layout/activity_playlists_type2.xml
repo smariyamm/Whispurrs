@@ -10,6 +10,20 @@
 
 
     <Button
+        android:id="@+id/beats2"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:background="@drawable/roundedcoral"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text=" + create new playlist"
+        android:textAllCaps="false"
+        android:textColor="#FFDF7B"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/backbutton2"
         android:layout_width="91dp"
         android:layout_height="35dp"
@@ -150,6 +164,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/imageViewGif2"
+        android:layout_width="138dp"
+        android:layout_height="149dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/resizedsleepycat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.864"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

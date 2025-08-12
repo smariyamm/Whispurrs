@@ -57,8 +57,10 @@ public class LoginActivity extends AppCompatActivity {
         EditText pass = findViewById(R.id.password);
         enter = findViewById(R.id.enter);
         enter.setOnClickListener(v -> {
-            String username = user.getText().toString();
-            String password = pass.getText().toString();
+//            String username = user.getText().toString();  //!!!!!!!!!!! uncomment this for regular use
+//            String password = pass.getText().toString();
+            String username = "s@gmail.com";
+            String password = "sumayya";
             if (password.isEmpty() && username.isEmpty()) {
                 Toast.makeText(LoginActivity.this,
                         "please enter login information",
