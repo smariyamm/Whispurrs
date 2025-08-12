@@ -41,12 +41,18 @@ android {
 }
 
 dependencies {
-    implementation("com.google.firebase:firebase-auth:22.3.0")
-    implementation("com.google.firebase:firebase-database:20.3.0")
+//    implementation("com.google.firebase:firebase-auth:22.3.0")
+//    implementation("com.google.firebase:firebase-database:20.3.0")
 
-
+// BoM first
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+
+// Firebase dependencies (no versions, BoM handles it)
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-analytics")
+
 
 
     // Glide dependency for image loading

@@ -3,15 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_playlists"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#77B5BD"
     tools:context=".PlaylistsActivity"
     >
 
+    <FrameLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#77B5BD" >
+
+    </FrameLayout>
+
 
     <Button
-        android:id="@+id/backbutton2"
+        android:id="@+id/create_new_playlist"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="230dp"
+        android:background="@drawable/roundedcoral"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text=" + create new playlist"
+        android:textAllCaps="false"
+        android:textColor="#FFDF7B"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <Button
+        android:id="@+id/backbutton"
         android:layout_width="91dp"
         android:layout_height="35dp"
         android:background="@drawable/yellowroundedbutton"
@@ -106,14 +132,15 @@
         android:id="@+id/searchplaylists"
         android:layout_width="302dp"
         android:layout_height="29dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/playlistsearch"
         android:fontFamily="@font/pixelify_sans_medium"
-        android:hint="search beat"
+        android:hint="search playlists"
         android:inputType="textPersonName"
         android:paddingStart="10dp"
         android:textColor="#DD5588"
         android:textColorHint="#77B5BD"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.321"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,6 +153,7 @@
         android:id="@+id/searchicon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="400dp"
         android:fontFamily="@font/pixelify_sans_medium"
         android:rotationY="180"
         android:text="⌕"
@@ -141,15 +169,54 @@
 
     <ImageView
         android:id="@+id/imageViewGif"
-        android:layout_width="220dp"
-        android:layout_height="238dp"
+        android:layout_width="138dp"
+        android:layout_height="149dp"
+        android:layout_marginBottom="210dp"
         android:scaleType="fitXY"
         android:src="@drawable/resizedsleepycat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.973"
+        app:layout_constraintHorizontal_bias="0.86"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.103" />
+        app:layout_constraintVertical_bias="0.153" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="140dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout"
+        app:layout_constraintVertical_bias="0.379">
+
+        <GridLayout
+            android:id="@+id/playlistContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alignmentMode="alignMargins"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:padding="16dp" />
+
+    </ScrollView>
+
+    <include
+        android:id="@+id/bottombar"
+        layout="@layout/bottom_bar"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/selected_song_screen"
+        layout="@layout/activity_selected_song"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/activity_home_2"
+        layout="@layout/activity_home_type2"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
