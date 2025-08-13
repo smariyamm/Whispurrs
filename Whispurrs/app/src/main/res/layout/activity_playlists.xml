@@ -19,22 +19,6 @@
     </FrameLayout>
 
 
-    <Button
-        android:id="@+id/create_new_playlist"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="230dp"
-        android:background="@drawable/roundedcoral"
-        android:fontFamily="@font/pixelify_sans_medium"
-        android:text=" + create new playlist"
-        android:textAllCaps="false"
-        android:textColor="#FFDF7B"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
     <Button
         android:id="@+id/backbutton"
@@ -203,6 +187,24 @@
             android:padding="16dp" />
 
     </ScrollView>
+
+
+    <Button
+        android:id="@+id/create_new_playlist"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="230dp"
+        android:background="@drawable/roundedcoral"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:text=" + create new playlist"
+        android:textAllCaps="false"
+        android:textColor="#FFDF7B"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
     <include
         android:id="@+id/bottombar"

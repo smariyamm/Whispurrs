@@ -57,6 +57,7 @@ public class PlaylistsActivity extends AppCompatActivity {
     private String currentSongUrl;
     private String currentSongName;
     private String currentGifUrl;
+    private ImageButton pausePlayButton, selectSongButton;
 
 
     @Override
@@ -101,6 +102,7 @@ public class PlaylistsActivity extends AppCompatActivity {
         playPauseButton = bottomBar.findViewById(R.id.playPauseButton);
         progressBar = bottomBar.findViewById(R.id.songProgress);
         songTitle = bottomBar.findViewById(R.id.songTitle);
+        selectSongButton = bottomBar.findViewById(R.id.selectsong);
     }
 
 //    private void initListeners() {
@@ -134,6 +136,29 @@ public class PlaylistsActivity extends AppCompatActivity {
 
         Button homeButton = bottomBar.findViewById(R.id.home);
         homeButton.setOnClickListener(v -> toggleHomeMenu());
+
+        View selectedSongScreen = findViewById(R.id.selected_song_screen);
+        selectSongButton.setOnClickListener(v -> {
+            if (selectedSongScreen.getVisibility() == View.GONE) {
+                selectedSongScreen.setVisibility(View.VISIBLE);
+
+                // Update all name TextViews with current song name
+                int[] nameTextViewIds = {R.id.name1, R.id.name2, R.id.name3, R.id.name4, R.id.name5};
+                for (int id : nameTextViewIds) {
+                    ((TextView) selectedSongScreen.findViewById(id)).setText(currentSongName);
+                }
+            } else {
+                selectedSongScreen.setVisibility(View.GONE);
+            }
+
+            Button backButton = selectedSongScreen.findViewById(R.id.backbutton);
+            backButton.setOnClickListener(v1 -> {
+                selectedSongScreen.setVisibility(View.GONE);
+                finish(); // close activity only after hiding the selected song screen
+            });
+
+        });
+
     }
 
 
@@ -163,6 +188,7 @@ public class PlaylistsActivity extends AppCompatActivity {
             upload.setOnClickListener(v -> startActivity(new Intent(this, UploadActivity.class)));
 
             homeMenu.setVisibility(View.VISIBLE);
+            finish();
         }
     }
 
