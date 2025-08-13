@@ -2,6 +2,7 @@ package com.example.whispurrs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -51,19 +52,45 @@ public class UploadActivity extends AppCompatActivity {
         });
 
         upload.setOnClickListener(v -> {
-            String name = beatname.getText().toString();
-            String beaturl = beaturl1.getText().toString();
-            String animationurl = beatanimationurl.getText().toString();
+            String name = beatname.getText().toString().trim();
+            String beaturl = beaturl1.getText().toString().trim();
+            String animationurl = beatanimationurl.getText().toString().trim();
 
             if (name.isEmpty() || beaturl.isEmpty() || animationurl.isEmpty()) {
                 Toast.makeText(UploadActivity.this,
-                        "please enter all fields",
+                        "Please enter all fields",
                         Toast.LENGTH_LONG).show();
                 return;
             }
 
-            // add in checks for if url is legit
-            // add user name to song when uploading
+            // ✅ URL validation
+            if (!Patterns.WEB_URL.matcher(beaturl).matches()) {
+                Toast.makeText(UploadActivity.this,
+                        "Please enter a valid Beat URL",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (!Patterns.WEB_URL.matcher(animationurl).matches()) {
+                Toast.makeText(UploadActivity.this,
+                        "Please enter a valid Animation URL",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            // ✅ Optional: restrict to specific file types
+            if (!beaturl.endsWith(".mp3") && !beaturl.endsWith(".wav")) {
+                Toast.makeText(UploadActivity.this,
+                        "Beat URL must be an MP3 or WAV file",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (!animationurl.endsWith(".gif")) {
+                Toast.makeText(UploadActivity.this,
+                        "Animation URL must be a GIF file",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
 
             // Upload to Firebase
             DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Beats");
@@ -71,7 +98,7 @@ public class UploadActivity extends AppCompatActivity {
             HashMap<String, Object> beatData = new HashMap<>();
             beatData.put("beat", beaturl);
             beatData.put("gif", animationurl);
-//            beatData.put("user", username);
+//  beatData.put("user", username); // TODO: Add username when ready
 
             dbRef.child(name).setValue(beatData)
                     .addOnSuccessListener(unused -> {
@@ -85,7 +112,6 @@ public class UploadActivity extends AppCompatActivity {
                                 Toast.LENGTH_LONG).show();
                     });
         });
-
 
 
 

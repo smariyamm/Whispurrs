@@ -66,9 +66,9 @@ public class HomeActivity extends AppCompatActivity {
         addCloudBelt(R.drawable.cloud2, R.drawable.cloud11, 4, 2f, 300);
         addCloudBelt(R.drawable.cloud22, R.drawable.cloud11, 3, 1f, 600);
         addCloudBelt(R.drawable.cloud3, R.drawable.cloud11,4, 2f, 1600);
-        addCloudBelt(R.drawable.cloud33, R.drawable.cloud11,3, 1f, 800);
+        addCloudBelt(R.drawable.cloud33, R.drawable.cloud11,3, 1f, 960);
         addCloudBelt(R.drawable.cloud4, R.drawable.cloud11,4, 1f, 1800);
-        addCloudBelt(R.drawable.cloud44, R.drawable.cloud11,3, 1f, 950);
+        addCloudBelt(R.drawable.cloud44, R.drawable.cloud11,3, 1f, 1250);
 
         runnable = new Runnable() { // this loop moves clouds continously
             @Override
