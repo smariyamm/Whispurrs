@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,20 +44,18 @@ public class PlaylistsActivity extends AppCompatActivity {
 
     private View bottomBar;
     private View homeMenu;
-    private MediaPlayer mediaPlayer;
-    private Runnable progressRunnable;
     private Handler progressHandler = new Handler();
+    private Runnable progressRunnable;
 
     private ImageButton playPauseButton;
     private ProgressBar progressBar;
     private TextView songTitle;
     private ImageButton replayButton;
+    private ImageButton selectSongButton;
 
     private String currentSongUrl;
     private String currentSongName;
     private String currentGifUrl;
-    private ImageButton pausePlayButton, selectSongButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +70,10 @@ public class PlaylistsActivity extends AppCompatActivity {
             return insets;
         });
 
-
-
         initFirebase();
         initViews();
         initListeners();
-
         loadPlaylists();
-
     }
 
     private void initFirebase() {
@@ -92,36 +85,18 @@ public class PlaylistsActivity extends AppCompatActivity {
         playlistContainer = findViewById(R.id.playlistContainer);
         bottomBar = findViewById(R.id.bottombar);
         homeMenu = findViewById(R.id.activity_home_2);
-        replayButton = bottomBar.findViewById(R.id.replay);
-
-
-
         bottomBar.setVisibility(View.GONE);
         homeMenu.setVisibility(View.GONE);
 
         playPauseButton = bottomBar.findViewById(R.id.playPauseButton);
         progressBar = bottomBar.findViewById(R.id.songProgress);
         songTitle = bottomBar.findViewById(R.id.songTitle);
+        replayButton = bottomBar.findViewById(R.id.replay);
         selectSongButton = bottomBar.findViewById(R.id.selectsong);
     }
 
-//    private void initListeners() {
-//        findViewById(R.id.backbutton).setOnClickListener(v -> startActivity(new Intent(this, HomeActivity.class)));
-//        findViewById(R.id.create_new_playlist).setOnClickListener(v -> loadBeatsAndSelect());
-//
-//        playPauseButton.setOnClickListener(v -> togglePlayback());
-//
-//        replayButton.setOnClickListener(v -> {
-//            playSong(SongUrl, SongName);
-//        });
-//
-//        Button homeButton = bottomBar.findViewById(R.id.home);
-//        homeButton.setOnClickListener(v -> toggleHomeMenu());
-//    }
-
     private void initListeners() {
         findViewById(R.id.backbutton).setOnClickListener(v -> startActivity(new Intent(this, HomeActivity.class)));
-
         findViewById(R.id.create_new_playlist).setOnClickListener(v -> loadBeatsAndSelect());
 
         playPauseButton.setOnClickListener(v -> togglePlayback());
@@ -141,8 +116,6 @@ public class PlaylistsActivity extends AppCompatActivity {
         selectSongButton.setOnClickListener(v -> {
             if (selectedSongScreen.getVisibility() == View.GONE) {
                 selectedSongScreen.setVisibility(View.VISIBLE);
-
-                // Update all name TextViews with current song name
                 int[] nameTextViewIds = {R.id.name1, R.id.name2, R.id.name3, R.id.name4, R.id.name5};
                 for (int id : nameTextViewIds) {
                     ((TextView) selectedSongScreen.findViewById(id)).setText(currentSongName);
@@ -152,26 +125,21 @@ public class PlaylistsActivity extends AppCompatActivity {
             }
 
             Button backButton = selectedSongScreen.findViewById(R.id.backbutton);
-            backButton.setOnClickListener(v1 -> {
-                selectedSongScreen.setVisibility(View.GONE);
-                finish(); // close activity only after hiding the selected song screen
-            });
-
+            backButton.setOnClickListener(v1 -> selectedSongScreen.setVisibility(View.GONE));
         });
-
     }
 
-
-
     private void togglePlayback() {
-        if (mediaPlayer == null) return;
-
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-            playPauseButton.setImageResource(R.drawable.play);
-        } else {
-            mediaPlayer.start();
-            playPauseButton.setImageResource(R.drawable.pause);
+        MediaPlayer mp = MusicPlayer.getInstance();
+        if (mp != null) {
+            if (mp.isPlaying()) {
+                mp.pause();
+                playPauseButton.setImageResource(R.drawable.play);
+            } else {
+                mp.start();
+                playPauseButton.setImageResource(R.drawable.pause);
+                startUpdatingProgress();
+            }
         }
     }
 
@@ -188,7 +156,6 @@ public class PlaylistsActivity extends AppCompatActivity {
             upload.setOnClickListener(v -> startActivity(new Intent(this, UploadActivity.class)));
 
             homeMenu.setVisibility(View.VISIBLE);
-            finish();
         }
     }
 
@@ -196,9 +163,7 @@ public class PlaylistsActivity extends AppCompatActivity {
         playlistContainer.removeAllViews();
         String userId = auth.getCurrentUser().getUid();
 
-        db.collection("users")
-                .document(userId)
-                .collection("playlists")
+        db.collection("users").document(userId).collection("playlists")
                 .get()
                 .addOnSuccessListener(query -> {
                     for (DocumentSnapshot doc : query.getDocuments()) {
@@ -242,72 +207,52 @@ public class PlaylistsActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Songs in " + playlistName)
                 .setItems(songNames, (dialog, which) -> {
-                    String songUrl = songs.get(which).get("beat");
-                    String songName = songs.get(which).get("name");
-                    String songGifUrl = songs.get(which).get("gif");
-                    playSong(songUrl, songName, songGifUrl);
-
+                    Map<String, String> songData = songs.get(which);
+                    playSong(songData.get("beat"), songData.get("name"), songData.get("gif"));
                 })
                 .show();
     }
 
-//    private void playSong(String url, String name) {
-//        songTitle.setText(name);
-//
-//        releaseMediaPlayer();
-//
-//        mediaPlayer = new MediaPlayer();
-//        try {
-//            mediaPlayer.setDataSource(url);
-//            mediaPlayer.setOnPreparedListener(mp -> {
-//                mp.start();
-//                progressBar.setMax(mp.getDuration());
-//                startUpdatingProgress();
-//                playPauseButton.setImageResource(R.drawable.pause);
-//                bottomBar.setVisibility(View.VISIBLE);
-//            });
-//            mediaPlayer.prepareAsync();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Toast.makeText(this, "Failed to play song", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
-    // Update your playSong method to accept gifUrl too and store these fields
     private void playSong(String url, String name, String gifUrl) {
-        // Store current playing song info for replay
+        MediaPlayer mp = MusicPlayer.getInstance();
+        MusicPlayer.stop();
+
         currentSongUrl = url;
         currentSongName = name;
         currentGifUrl = gifUrl;
 
         songTitle.setText(name);
+        bottomBar.setVisibility(View.VISIBLE);
 
-        releaseMediaPlayer();
-
-        mediaPlayer = new MediaPlayer();
         try {
-            mediaPlayer.setDataSource(url);
-            mediaPlayer.setOnPreparedListener(mp -> {
-                mp.start();
-                progressBar.setMax(mp.getDuration());
+            mp.reset();
+            mp.setDataSource(url);
+            mp.setOnPreparedListener(mediaPlayer -> {
+                mediaPlayer.start();
+                progressBar.setMax(mediaPlayer.getDuration());
                 startUpdatingProgress();
                 playPauseButton.setImageResource(R.drawable.pause);
-                bottomBar.setVisibility(View.VISIBLE);
             });
-            mediaPlayer.prepareAsync();
+            mp.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Failed to play song", Toast.LENGTH_SHORT).show();
         }
     }
 
-
-    private void releaseMediaPlayer() {
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
+    private void startUpdatingProgress() {
+        progressHandler.removeCallbacks(progressRunnable);
+        progressRunnable = new Runnable() {
+            @Override
+            public void run() {
+                MediaPlayer mp = MusicPlayer.getInstance();
+                if (mp != null && mp.isPlaying()) {
+                    progressBar.setProgress(mp.getCurrentPosition(), true);
+                    progressHandler.postDelayed(this, 500);
+                }
+            }
+        };
+        progressHandler.post(progressRunnable);
     }
 
     private void loadBeatsAndSelect() {
@@ -376,9 +321,7 @@ public class PlaylistsActivity extends AppCompatActivity {
         playlistData.put("createdAt", FieldValue.serverTimestamp());
         playlistData.put("songs", Collections.singletonList(beatData));
 
-        db.collection("users")
-                .document(userId)
-                .collection("playlists")
+        db.collection("users").document(userId).collection("playlists")
                 .add(playlistData)
                 .addOnSuccessListener(doc -> Toast.makeText(this, "Playlist created!", Toast.LENGTH_SHORT).show());
     }
@@ -415,23 +358,10 @@ public class PlaylistsActivity extends AppCompatActivity {
                 });
     }
 
-    private void startUpdatingProgress() {
-        progressRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    progressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
-                    progressHandler.postDelayed(this, 500);
-                }
-            }
-        };
-        progressHandler.post(progressRunnable);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        releaseMediaPlayer();
+        MusicPlayer.stop();
         if (progressRunnable != null) progressHandler.removeCallbacks(progressRunnable);
     }
 }

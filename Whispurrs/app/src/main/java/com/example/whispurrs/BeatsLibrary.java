@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
@@ -29,15 +30,22 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BeatsLibrary extends AppCompatActivity {
 
@@ -68,6 +76,8 @@ public class BeatsLibrary extends AppCompatActivity {
     // Progress updater
     private Handler progressHandler = new Handler();
     private Runnable progressRunnable;
+    private FirebaseFirestore db;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +94,10 @@ public class BeatsLibrary extends AppCompatActivity {
 
         homeMenu = findViewById(R.id.activity_home_2);
         homeMenu.setVisibility(View.GONE);
+
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+
 
         // Handle system bars inset padding
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -158,18 +172,33 @@ public class BeatsLibrary extends AppCompatActivity {
 
     private void initListeners() {
         // Bottom bar play/pause button toggle
+//        pausePlayButton.setOnClickListener(v -> {
+//            if (mediaPlayer != null) {
+//                if (mediaPlayer.isPlaying()) {
+//                    mediaPlayer.pause();
+//                    pausePlayButton.setImageResource(R.drawable.play);
+//                } else {
+//                    mediaPlayer.start();
+//                    pausePlayButton.setImageResource(R.drawable.pause);
+//                    startUpdatingProgress();
+//                }
+//            }
+//        });
+
         pausePlayButton.setOnClickListener(v -> {
-            if (mediaPlayer != null) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
+            MediaPlayer mp = MusicPlayer.getInstance();
+            if (mp != null) {
+                if (mp.isPlaying()) {
+                    mp.pause();
                     pausePlayButton.setImageResource(R.drawable.play);
                 } else {
-                    mediaPlayer.start();
+                    mp.start();
                     pausePlayButton.setImageResource(R.drawable.pause);
-                    startUpdatingProgress();
+                    startUpdatingProgress(); // restart progress updates if paused
                 }
             }
         });
+
 
         // Replay button
         ImageButton replayButton = findViewById(R.id.replay);
@@ -182,7 +211,32 @@ public class BeatsLibrary extends AppCompatActivity {
         });
 
         // Select song button toggles selected song screen visibility and updates displayed names
+//        View selectedSongScreen = findViewById(R.id.selected_song_screen);
+//        selectSongButton.setOnClickListener(v -> {
+//            if (selectedSongScreen.getVisibility() == View.GONE) {
+//                selectedSongScreen.setVisibility(View.VISIBLE);
+//
+//                // Update all name TextViews with current song name
+//                int[] nameTextViewIds = {R.id.name1, R.id.name2, R.id.name3, R.id.name4, R.id.name5};
+//                for (int id : nameTextViewIds) {
+//                    ((TextView) selectedSongScreen.findViewById(id)).setText(currentSongName);
+//                }
+//            } else {
+//                selectedSongScreen.setVisibility(View.GONE);
+//            }
+//
+//            Button backButton = selectedSongScreen.findViewById(R.id.backbutton);
+//            backButton.setOnClickListener(v1 -> selectedSongScreen.setVisibility(View.GONE));
+//        });
+
+        // Get the selected song screen view
         View selectedSongScreen = findViewById(R.id.selected_song_screen);
+
+// Get buttons inside the selected song screen
+        ImageButton addPlaylist = selectedSongScreen.findViewById(R.id.addplaylist);
+        Button backButton = selectedSongScreen.findViewById(R.id.backbutton);
+
+// Toggle visibility of selected song screen
         selectSongButton.setOnClickListener(v -> {
             if (selectedSongScreen.getVisibility() == View.GONE) {
                 selectedSongScreen.setVisibility(View.VISIBLE);
@@ -192,13 +246,41 @@ public class BeatsLibrary extends AppCompatActivity {
                 for (int id : nameTextViewIds) {
                     ((TextView) selectedSongScreen.findViewById(id)).setText(currentSongName);
                 }
+
+                // Set up Add to Playlist click listener
+                addPlaylist.setOnClickListener(v1 -> {
+                    if (currentSongUrl == null || currentSongName == null) {
+                        Toast.makeText(this, "No song is currently playing", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Map<String, String> currentSongData = new HashMap<>();
+                    currentSongData.put("name", currentSongName);
+                    currentSongData.put("beat", currentSongUrl);
+
+                    String[] options = {"Create New Playlist", "Add to Existing Playlist"};
+                    new AlertDialog.Builder(this)
+                            .setTitle("Add to Playlist")
+                            .setItems(options, (dialog, which) -> {
+                                if (which == 0) {
+                                    showCreatePlaylistDialog(currentSongData);
+                                } else {
+                                    showExistingPlaylistsDialog(currentSongData);
+                                }
+                            })
+                            .show();
+                });
+
+                // Set up back button click listener
+                backButton.setOnClickListener(v2 -> selectedSongScreen.setVisibility(View.GONE));
+
             } else {
                 selectedSongScreen.setVisibility(View.GONE);
             }
-
-            Button backButton = selectedSongScreen.findViewById(R.id.backbutton);
-            backButton.setOnClickListener(v1 -> selectedSongScreen.setVisibility(View.GONE));
         });
+
+
+
 
         // Home button toggle menu
         Button homeButton = bottomBar.findViewById(R.id.home);
@@ -295,41 +377,78 @@ public class BeatsLibrary extends AppCompatActivity {
         return button;
     }
 
-    private void playSong(String url, String name) {
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
+//    private void playSong(String url, String name) {
+//        if (mediaPlayer != null) {
+//            if (mediaPlayer.isPlaying()) mediaPlayer.stop();
+//            mediaPlayer.release();
+//            mediaPlayer = null;
+//        }
+//
+//        mediaPlayer = new MediaPlayer();
+//        try {
+//            mediaPlayer.setDataSource(url);
+//            mediaPlayer.setOnPreparedListener(mp -> {
+//                mp.start();
+//                progressBar.setMax(mp.getDuration());
+//                startUpdatingProgress();
+//                pausePlayButton.setImageResource(R.drawable.pause);
+//            });
+//            mediaPlayer.prepareAsync();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Toast.makeText(this, "Failed to play song", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-        mediaPlayer = new MediaPlayer();
+    private void playSong(String url, String name) {
+        MediaPlayer mp = MusicPlayer.getInstance();
+        MusicPlayer.stop(); // stop previous song
+
         try {
-            mediaPlayer.setDataSource(url);
-            mediaPlayer.setOnPreparedListener(mp -> {
-                mp.start();
-                progressBar.setMax(mp.getDuration());
+            mp.reset();
+            mp.setDataSource(url);
+            mp.setOnPreparedListener(mediaPlayer -> {
+                mediaPlayer.start();
+                progressBar.setMax(mediaPlayer.getDuration());
                 startUpdatingProgress();
                 pausePlayButton.setImageResource(R.drawable.pause);
             });
-            mediaPlayer.prepareAsync();
+            mp.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Failed to play song", Toast.LENGTH_SHORT).show();
         }
     }
 
+
+//    private void startUpdatingProgress() {
+//        progressRunnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+//                    progressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
+//                    progressHandler.postDelayed(this, 500);
+//                }
+//            }
+//        };
+//        progressHandler.post(progressRunnable);
+//    }
+
     private void startUpdatingProgress() {
+        progressHandler.removeCallbacks(progressRunnable); // remove previous callbacks
         progressRunnable = new Runnable() {
             @Override
             public void run() {
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    progressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
+                MediaPlayer mp = MusicPlayer.getInstance();
+                if (mp != null && mp.isPlaying()) {
+                    progressBar.setProgress(mp.getCurrentPosition(), true);
                     progressHandler.postDelayed(this, 500);
                 }
             }
         };
         progressHandler.post(progressRunnable);
     }
+
 
     @Override
     protected void onDestroy() {
@@ -383,4 +502,69 @@ public class BeatsLibrary extends AppCompatActivity {
             }
         }
     }
+
+    private void showCreatePlaylistDialog(Map<String, String> beatData) {
+        EditText inputName = new EditText(this);
+        inputName.setHint("Playlist Name");
+
+        new AlertDialog.Builder(this)
+                .setTitle("New Playlist")
+                .setView(inputName)
+                .setPositiveButton("Create", (dialog, which) -> {
+                    String playlistName = inputName.getText().toString().trim();
+                    if (!playlistName.isEmpty()) {
+                        createPlaylist(playlistName, beatData);
+                    } else {
+                        Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+    private void createPlaylist(String name, Map<String, String> beatData) {
+        String userId = auth.getCurrentUser().getUid();
+        Map<String, Object> playlistData = new HashMap<>();
+        playlistData.put("name", name);
+        playlistData.put("createdAt", FieldValue.serverTimestamp());
+        playlistData.put("songs", Collections.singletonList(beatData));
+
+        db.collection("users")
+                .document(userId)
+                .collection("playlists")
+                .add(playlistData)
+                .addOnSuccessListener(doc -> Toast.makeText(this, "Playlist created!", Toast.LENGTH_SHORT).show());
+    }
+
+    private void showExistingPlaylistsDialog(Map<String, String> beatData) {
+        String userId = auth.getCurrentUser().getUid();
+
+        db.collection("users").document(userId).collection("playlists")
+                .get()
+                .addOnSuccessListener(query -> {
+                    if (query.isEmpty()) {
+                        Toast.makeText(this, "No playlists found. Create one first.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String[] playlistNames = query.getDocuments().stream()
+                            .map(doc -> doc.getString("name"))
+                            .toArray(String[]::new);
+                    String[] playlistIds = query.getDocuments().stream()
+                            .map(DocumentSnapshot::getId)
+                            .toArray(String[]::new);
+
+                    new AlertDialog.Builder(this)
+                            .setTitle("Select Playlist")
+                            .setItems(playlistNames, (dialog, which) -> {
+                                db.collection("users")
+                                        .document(userId)
+                                        .collection("playlists")
+                                        .document(playlistIds[which])
+                                        .update("songs", FieldValue.arrayUnion(beatData))
+                                        .addOnSuccessListener(a -> Toast.makeText(this, "Song added!", Toast.LENGTH_SHORT).show());
+                            })
+                            .show();
+                });
+    }
+
 }
