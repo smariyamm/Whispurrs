@@ -145,37 +145,57 @@
         app:layout_constraintTop_toBottomOf="@+id/playlist"
         app:layout_constraintVertical_bias="0.416" />
 
-    <ImageButton
-        android:id="@+id/addplaylist"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/blueplus"
-        android:fontFamily="@font/pixelify_sans_medium"
-        android:shadowColor="#FFDF7B"
-        android:textColor="#DD5588"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/playlist"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.408"
-        app:layout_constraintStart_toEndOf="@+id/playlist"
-        app:layout_constraintTop_toTopOf="@+id/playlist"
-        app:layout_constraintVertical_bias="0.697" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/addplaylist"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:background="@drawable/blueplus"-->
+<!--        android:fontFamily="@font/pixelify_sans_medium"-->
+<!--        android:shadowColor="#FFDF7B"-->
+<!--        android:textColor="#DD5588"-->
+<!--        android:textSize="30sp"-->
+<!--        android:clickable="true"-->
+<!--        android:focusable="true"-->
+<!--        android:elevation="10dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/playlist"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.408"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/playlist"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/playlist"-->
+<!--        app:layout_constraintVertical_bias="0.697" />-->
 
-    <ImageButton
-        android:id="@+id/addliked"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/blueplus"
-        android:fontFamily="@font/pixelify_sans_medium"
-        android:shadowColor="#FFDF7B"
-        android:textColor="#DD5588"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/liked"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.886"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/liked"
-        app:layout_constraintVertical_bias="0.809" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/addplaylist"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:src="@drawable/blueplus"-->
+<!--        android:elevation="100dp"-->
+<!--        android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--        android:contentDescription="Add to playlist"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/playlist"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.408"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/playlist"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/playlist"-->
+<!--        app:layout_constraintVertical_bias="0.697" />-->
+
+
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/addliked"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:background="@drawable/blueplus"-->
+<!--        android:fontFamily="@font/pixelify_sans_medium"-->
+<!--        android:shadowColor="#FFDF7B"-->
+<!--        android:textColor="#DD5588"-->
+<!--        android:textSize="30sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/liked"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.886"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/liked"-->
+<!--        app:layout_constraintVertical_bias="0.809" />-->
 
     <Button
         android:id="@+id/backbutton"
@@ -221,6 +241,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+    <ImageButton
+        android:id="@+id/addplaylist"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/blueplus"
+        android:elevation="100dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Add to playlist"
+        app:layout_constraintBottom_toBottomOf="@+id/playlist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.408"
+        app:layout_constraintStart_toEndOf="@+id/playlist"
+        app:layout_constraintTop_toTopOf="@+id/playlist"
+        app:layout_constraintVertical_bias="0.697" />
+
+
+
+    <ImageButton
+        android:id="@+id/addliked"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/blueplus"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:shadowColor="#FFDF7B"
+        android:textColor="#DD5588"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/liked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.886"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/liked"
+        app:layout_constraintVertical_bias="0.809" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
