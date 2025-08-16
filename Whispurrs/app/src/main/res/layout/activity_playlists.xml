@@ -206,6 +206,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
+
+
     <include
         android:id="@+id/bottombar"
         layout="@layout/bottom_bar"

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/inputfield"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/dialog_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:padding="3dp"
+        android:text="✕"
+        android:textColor="#DD5588"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Custom Title"
+        android:textSize="20sp"
+        android:textColor="#DD5588"
+        android:fontFamily="@font/pixelify_sans_medium"
+        android:layout_marginBottom="10dp" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/dialog_message"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="This is a custom message."-->
+<!--        android:textSize="16sp"-->
+<!--        android:textColor="#77B5BD"-->
+<!--        android:fontFamily="@font/pixelify_sans_medium" />-->
+
+    <ListView
+        android:id="@+id/playlistList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#FFAF80"
+        android:dividerHeight="1dp" />
+</LinearLayout>
