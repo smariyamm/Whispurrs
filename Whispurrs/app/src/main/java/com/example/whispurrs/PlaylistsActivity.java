@@ -5,11 +5,16 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +22,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -63,7 +69,6 @@ public class PlaylistsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_playlists);
 
-        // Window Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_playlists), (v, insets) -> {
             Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
@@ -196,21 +201,285 @@ public class PlaylistsActivity extends AppCompatActivity {
         playlistContainer.addView(playlistButton);
     }
 
+    // ------------------- ALL DIALOGS USE SAME XML -------------------
+
     private void showSongsDialog(String playlistName, List<Map<String, String>> songs) {
         if (songs == null || songs.isEmpty()) {
             Toast.makeText(this, "No songs in this playlist", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String[] songNames = songs.stream().map(song -> song.get("name")).toArray(String[]::new);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog, null);
 
-        new AlertDialog.Builder(this)
-                .setTitle("Songs in " + playlistName)
-                .setItems(songNames, (dialog, which) -> {
-                    Map<String, String> songData = songs.get(which);
-                    playSong(songData.get("beat"), songData.get("name"), songData.get("gif"));
-                })
-                .show();
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        title.setText("Songs in " + playlistName);
+
+        ListView listView = dialogView.findViewById(R.id.playlistList);
+        String[] songNames = songs.stream().map(s -> s.get("name")).toArray(String[]::new);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, songNames) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView tv = (TextView) super.getView(position, convertView, parent);
+                tv.setTextColor(Color.parseColor("#77B5BD"));
+                tv.setTypeface(ResourcesCompat.getFont(getContext(), R.font.pixelify_sans_medium));
+                return tv;
+            }
+        };
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Map<String, String> songData = songs.get(position);
+            playSong(songData.get("beat"), songData.get("name"), songData.get("gif"));
+        });
+
+        // ------------------ Add close button ------------------
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        TextView closeButton = dialogView.findViewById(R.id.dialog_close);
+        if (closeButton != null) {
+            closeButton.setOnClickListener(v -> dialog.dismiss());
+        }
+
+        dialog.show();
+    }
+
+    private void loadBeatsAndSelect() {
+        DatabaseReference beatsRef = FirebaseDatabase.getInstance().getReference("Beats");
+        beatsRef.get().addOnSuccessListener(snapshot -> {
+            if (!snapshot.exists()) return;
+
+            List<String> beatNames = new ArrayList<>();
+            List<Map<String, String>> beatDataList = new ArrayList<>();
+
+            for (DataSnapshot beatSnap : snapshot.getChildren()) {
+                String name = beatSnap.getKey();
+                String beatUrl = beatSnap.child("beat").getValue(String.class);
+                String gifUrl = beatSnap.child("gif").getValue(String.class);
+
+                beatNames.add(name);
+                Map<String, String> beatInfo = new HashMap<>();
+                beatInfo.put("name", name);
+                beatInfo.put("beat", beatUrl);
+                beatInfo.put("gif", gifUrl);
+                beatDataList.add(beatInfo);
+            }
+
+            showBeatDialog(beatDataList, beatNames);
+        });
+    }
+
+    private void showBeatDialog(List<Map<String, String>> beatDataList, List<String> beatNames) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog, null);
+
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        title.setText("Select a Beat");
+
+        ListView listView = dialogView.findViewById(R.id.playlistList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, beatNames) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView tv = (TextView) super.getView(position, convertView, parent);
+                tv.setTextColor(Color.parseColor("#77B5BD"));
+                tv.setTypeface(ResourcesCompat.getFont(getContext(), R.font.pixelify_sans_medium));
+                return tv;
+            }
+        };
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener((parent, view, position, id) -> askPlaylistChoice(beatDataList.get(position)));
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        TextView closeButton = dialogView.findViewById(R.id.dialog_close);
+        if (closeButton != null) {
+            closeButton.setOnClickListener(v -> dialog.dismiss());
+        }
+
+        dialog.show();
+
+    }
+
+    private void askPlaylistChoice(Map<String, String> beatData) {
+        List<String> options = new ArrayList<>();
+        options.add("Create New Playlist");
+        options.add("Add to Existing Playlist");
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog, null);
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        title.setText("What would you like to do?");
+
+        ListView listView = dialogView.findViewById(R.id.playlistList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, options) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView tv = (TextView) super.getView(position, convertView, parent);
+                tv.setTextColor(Color.parseColor("#DD5588"));
+                tv.setTypeface(ResourcesCompat.getFont(getContext(), R.font.pixelify_sans_medium));
+                return tv;
+            }
+        };
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            if (position == 0) showCreatePlaylistDialog(beatData);
+            else showExistingPlaylistsDialog(beatData);
+        });
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        TextView closeButton = dialogView.findViewById(R.id.dialog_close);
+        if (closeButton != null) {
+            closeButton.setOnClickListener(v -> dialog.dismiss());
+        }
+
+        dialog.show();
+
+    }
+
+    private void showCreatePlaylistDialog(Map<String, String> beatData) {
+        // Inflate your custom dialog layout
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog, null);
+
+        // Set dialog title
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        title.setText("New Playlist");
+
+        // Add EditText for playlist name
+        EditText inputName = new EditText(this);
+        inputName.setHint("Playlist Name");
+        inputName.setHintTextColor(Color.parseColor("#77B5BD"));
+        inputName.setTextColor(Color.parseColor("#DD5588"));
+        inputName.setTypeface(ResourcesCompat.getFont(this, R.font.pixelify_sans_medium));
+        inputName.setBackgroundResource(R.drawable.inputfield);
+        inputName.setPadding(16, 16, 16, 16);
+
+        // Add EditText to the parent LinearLayout
+        LinearLayout parentLayout = (LinearLayout) dialogView;
+        parentLayout.addView(inputName);
+
+        // Create the AlertDialog
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        // Add close button (✕) functionality
+        TextView closeButton = dialogView.findViewById(R.id.dialog_close);
+        if (closeButton != null) {
+            closeButton.setOnClickListener(v -> dialog.dismiss());
+        }
+
+        // Add custom "Create" button
+        Button createButton = new Button(this);
+        createButton.setText("Create");
+        createButton.setAllCaps(false);
+        createButton.setTextColor(Color.parseColor("#DD5588"));
+        createButton.setBackgroundResource(R.drawable.roundedcoral);
+        createButton.setPadding(10, 10, 10, 10);
+        createButton.setTypeface(ResourcesCompat.getFont(this, R.font.pixelify_sans_medium));
+
+// Set layout parameters with top margin to separate from EditText
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.topMargin = 20; // space between EditText and button in dp
+        createButton.setLayoutParams(params);
+
+// Add the button to the parent layout
+        parentLayout.addView(createButton);
+
+
+        // Handle the click
+        createButton.setOnClickListener(v -> {
+            String playlistName = inputName.getText().toString().trim();
+            if (!playlistName.isEmpty()) {
+                createPlaylist(playlistName, beatData);
+                dialog.dismiss();
+            } else {
+                Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
+    }
+
+
+    private void createPlaylist(String name, Map<String, String> beatData) {
+        String userId = auth.getCurrentUser().getUid();
+        Map<String, Object> playlistData = new HashMap<>();
+        playlistData.put("name", name);
+        playlistData.put("createdAt", FieldValue.serverTimestamp());
+        playlistData.put("songs", Collections.singletonList(beatData));
+
+        db.collection("users").document(userId).collection("playlists")
+                .add(playlistData)
+                .addOnSuccessListener(doc -> Toast.makeText(this, "Playlist created!", Toast.LENGTH_SHORT).show());
+    }
+
+    private void showExistingPlaylistsDialog(Map<String, String> beatData) {
+        String userId = auth.getCurrentUser().getUid();
+        db.collection("users").document(userId).collection("playlists")
+                .get()
+                .addOnSuccessListener(query -> {
+                    if (query.isEmpty()) {
+                        Toast.makeText(this, "No playlists found. Create one first.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    List<String> playlistNames = new ArrayList<>();
+                    List<String> playlistIds = new ArrayList<>();
+                    for (DocumentSnapshot doc : query.getDocuments()) {
+                        playlistNames.add(doc.getString("name"));
+                        playlistIds.add(doc.getId());
+                    }
+
+                    LayoutInflater inflater = LayoutInflater.from(this);
+                    View dialogView = inflater.inflate(R.layout.dialog, null);
+                    TextView title = dialogView.findViewById(R.id.dialog_title);
+                    title.setText("Select Playlist");
+
+                    ListView listView = dialogView.findViewById(R.id.playlistList);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, playlistNames) {
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            TextView tv = (TextView) super.getView(position, convertView, parent);
+                            tv.setTextColor(Color.parseColor("#DD5588"));
+                            tv.setTypeface(ResourcesCompat.getFont(getContext(), R.font.pixelify_sans_medium));
+                            return tv;
+                        }
+                    };
+                    listView.setAdapter(adapter);
+
+                    listView.setOnItemClickListener((parent, view, position, id) -> {
+                        db.collection("users").document(userId).collection("playlists")
+                                .document(playlistIds.get(position))
+                                .update("songs", FieldValue.arrayUnion(beatData))
+                                .addOnSuccessListener(a -> Toast.makeText(this, "Song added!", Toast.LENGTH_SHORT).show());
+                    });
+
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                            .setView(dialogView)
+                            .create();
+
+                    TextView closeButton = dialogView.findViewById(R.id.dialog_close);
+                    if (closeButton != null) {
+                        closeButton.setOnClickListener(v -> dialog.dismiss());
+                    }
+
+                    dialog.show();
+
+                });
     }
 
     private void playSong(String url, String name, String gifUrl) {
@@ -253,109 +522,6 @@ public class PlaylistsActivity extends AppCompatActivity {
             }
         };
         progressHandler.post(progressRunnable);
-    }
-
-    private void loadBeatsAndSelect() {
-        DatabaseReference beatsRef = FirebaseDatabase.getInstance().getReference("Beats");
-        beatsRef.get().addOnSuccessListener(snapshot -> {
-            if (!snapshot.exists()) return;
-
-            List<String> beatNames = new ArrayList<>();
-            List<Map<String, String>> beatDataList = new ArrayList<>();
-
-            for (DataSnapshot beatSnap : snapshot.getChildren()) {
-                String name = beatSnap.getKey();
-                String beatUrl = beatSnap.child("beat").getValue(String.class);
-                String gifUrl = beatSnap.child("gif").getValue(String.class);
-
-                beatNames.add(name);
-                Map<String, String> beatInfo = new HashMap<>();
-                beatInfo.put("name", name);
-                beatInfo.put("beat", beatUrl);
-                beatInfo.put("gif", gifUrl);
-                beatDataList.add(beatInfo);
-            }
-
-            new AlertDialog.Builder(this)
-                    .setTitle("Select a Beat")
-                    .setItems(beatNames.toArray(new String[0]), (dialog, which) -> askPlaylistChoice(beatDataList.get(which)))
-                    .show();
-        });
-    }
-
-    private void askPlaylistChoice(Map<String, String> beatData) {
-        String[] options = {"Create New Playlist", "Add to Existing Playlist"};
-
-        new AlertDialog.Builder(this)
-                .setTitle("What would you like to do?")
-                .setItems(options, (dialog, which) -> {
-                    if (which == 0) showCreatePlaylistDialog(beatData);
-                    else showExistingPlaylistsDialog(beatData);
-                })
-                .show();
-    }
-
-    private void showCreatePlaylistDialog(Map<String, String> beatData) {
-        EditText inputName = new EditText(this);
-        inputName.setHint("Playlist Name");
-
-        new AlertDialog.Builder(this)
-                .setTitle("New Playlist")
-                .setView(inputName)
-                .setPositiveButton("Create", (dialog, which) -> {
-                    String playlistName = inputName.getText().toString().trim();
-                    if (!playlistName.isEmpty()) {
-                        createPlaylist(playlistName, beatData);
-                    } else {
-                        Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
-    }
-
-    private void createPlaylist(String name, Map<String, String> beatData) {
-        String userId = auth.getCurrentUser().getUid();
-        Map<String, Object> playlistData = new HashMap<>();
-        playlistData.put("name", name);
-        playlistData.put("createdAt", FieldValue.serverTimestamp());
-        playlistData.put("songs", Collections.singletonList(beatData));
-
-        db.collection("users").document(userId).collection("playlists")
-                .add(playlistData)
-                .addOnSuccessListener(doc -> Toast.makeText(this, "Playlist created!", Toast.LENGTH_SHORT).show());
-    }
-
-    private void showExistingPlaylistsDialog(Map<String, String> beatData) {
-        String userId = auth.getCurrentUser().getUid();
-
-        db.collection("users").document(userId).collection("playlists")
-                .get()
-                .addOnSuccessListener(query -> {
-                    if (query.isEmpty()) {
-                        Toast.makeText(this, "No playlists found. Create one first.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    String[] playlistNames = query.getDocuments().stream()
-                            .map(doc -> doc.getString("name"))
-                            .toArray(String[]::new);
-                    String[] playlistIds = query.getDocuments().stream()
-                            .map(DocumentSnapshot::getId)
-                            .toArray(String[]::new);
-
-                    new AlertDialog.Builder(this)
-                            .setTitle("Select Playlist")
-                            .setItems(playlistNames, (dialog, which) -> {
-                                db.collection("users")
-                                        .document(userId)
-                                        .collection("playlists")
-                                        .document(playlistIds[which])
-                                        .update("songs", FieldValue.arrayUnion(beatData))
-                                        .addOnSuccessListener(a -> Toast.makeText(this, "Song added!", Toast.LENGTH_SHORT).show());
-                            })
-                            .show();
-                });
     }
 
     @Override
