@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
         playlists.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, PlaylistsActivity.class);
+            Intent intent = new Intent(HomeActivity.this, PlaylistsActivity.class); // CHANGE THISSSS
             startActivity(intent);
         });
         upload.setOnClickListener(v -> {

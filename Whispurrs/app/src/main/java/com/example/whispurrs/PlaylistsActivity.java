@@ -531,3 +531,5 @@ public class PlaylistsActivity extends AppCompatActivity {
         if (progressRunnable != null) progressHandler.removeCallbacks(progressRunnable);
     }
 }
+
+
