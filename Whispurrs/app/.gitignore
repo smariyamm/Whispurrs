@@ -1,1 +1,15 @@
+# Gradle build folder
 /build
+/app/build
+
+# Local configuration file (API keys, local secrets)
+app/google-services.json
+
+# IntelliJ/Android Studio files
+*.iml
+.idea/
+.gradle/
+local.properties
+
+# OS files
+.DS_Store
